@@ -15,6 +15,7 @@ updates:
   - package-ecosystem: pip
     directory: "/.github/workflows"
     schedule:
+      interval: "daily"
       time: "04:19"
     reviewers:
       - "edgarrmondragon"
