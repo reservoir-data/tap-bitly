@@ -139,7 +139,7 @@ class Bitlinks(BitlyStream):
         self,
         response: requests.Response,
         previous_token: Optional[Any],
-    ) -> Any:
+    ) -> Optional[int]:
         """Get the next page token for a response.
 
         Args:
