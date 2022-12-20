@@ -42,5 +42,7 @@ jobs:
         tox --version
 
     - name: Run tests with Tox
+      env:
+        TAP_BITLY_TOKEN: ${{ secrets.TAP_BITLY_TOKEN }}
       run: |
         tox -e pytest
