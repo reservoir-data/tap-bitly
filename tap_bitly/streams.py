@@ -1,12 +1,35 @@
 """Stream type classes for tap-bitly."""
 
-from typing import Any, Dict, Iterable, Optional
-from urllib.parse import parse_qs, urlparse
+from __future__ import annotations
+
+from typing import Any, Iterable
+from urllib.parse import ParseResult, parse_qs
 
 import requests
 from singer_sdk import typing as th
+from singer_sdk.pagination import BaseHATEOASPaginator
 
 from tap_bitly.client import BitlyStream
+
+
+class BitlinksPaginator(BaseHATEOASPaginator):
+    """Bitlinks paginator."""
+
+    def get_next_url(self, response: requests.Response) -> str | None:
+        """Get the next URL for a response.
+
+        Args:
+            response: The response to get the next URL for.
+
+        Returns:
+            The next URL.
+        """
+        next_url = response.json().get("pagination", {}).get("next")
+
+        if next_url:
+            return next_url
+
+        return None
 
 
 class Groups(BitlyStream):
@@ -68,7 +91,7 @@ class Groups(BitlyStream):
         ),
     ).to_dict()
 
-    def get_child_context(self, record: dict, context: Optional[dict] = None) -> dict:
+    def get_child_context(self, record: dict, context: dict | None = None) -> dict:
         """Get child context for a record.
 
         Args:
@@ -135,33 +158,19 @@ class Bitlinks(BitlyStream):
         th.Property("group_guid", th.StringType, description="The bitlink's group."),
     ).to_dict()
 
-    def get_next_page_token(
-        self,
-        response: requests.Response,
-        previous_token: Optional[Any],
-    ) -> Optional[int]:
-        """Get the next page token for a response.
-
-        Args:
-            response: The response to get the next page token for.
-            previous_token: The previous page token.
+    def get_new_paginator(self) -> BitlinksPaginator:
+        """Get a new paginator.
 
         Returns:
-            The next page token.
+            The new paginator.
         """
-        next_url = response.json().get("pagination", {}).get("next")
-
-        if next_url:
-            qs_data = parse_qs(urlparse(next_url).query)
-            return int(qs_data["page"][0])
-
-        return None
+        return BitlinksPaginator()
 
     def get_url_params(
         self,
-        context: Optional[dict],
-        next_page_token: Optional[Any],
-    ) -> Dict[str, Any]:
+        context: dict | None,
+        next_page_token: ParseResult | None,
+    ) -> dict[str, Any]:
         """Get URL parameters.
 
         Args:
@@ -171,13 +180,16 @@ class Bitlinks(BitlyStream):
         Returns:
             The URL parameters.
         """
-        return {
+        params = {
             "archived": "both",
             "size": self._page_size,
-            "page": next_page_token or 1,
         }
+        if next_page_token:
+            params.update(parse_qs(next_page_token.query))
 
-    def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
+        return params
+
+    def get_child_context(self, record: dict, context: dict | None) -> dict:
         """Get child context for a record.
 
         Args:
@@ -338,7 +350,7 @@ class Organizations(BitlyStream):
         ),
     ).to_dict()
 
-    def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
+    def get_child_context(self, record: dict, context: dict | None) -> dict:
         """Get child context for a record.
 
         Args:
@@ -472,9 +484,9 @@ class MonthlyBitlinkClicks(DailyBitlinkClicks):
 
     def get_url_params(
         self,
-        context: Optional[dict],
-        next_page_token: Optional[Any],
-    ) -> Dict[str, Any]:
+        context: dict | None,
+        next_page_token: Any | None,
+    ) -> dict[str, Any]:
         """Get URL parameters.
 
         Args:
