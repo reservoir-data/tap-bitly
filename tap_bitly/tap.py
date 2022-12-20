@@ -44,6 +44,7 @@ class TapBitly(Tap):
             streams.Bitlinks(self),
             streams.BrandedShortDomains(self),
             streams.Campaigns(self),
+            streams.Channels(self),
             streams.Organizations(self),
             streams.DailyBitlinkClicks(self),
             streams.MonthlyBitlinkClicks(self),

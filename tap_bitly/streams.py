@@ -286,6 +286,48 @@ class Campaigns(BitlyStream):
     ).to_dict()
 
 
+class Channels(BitlyStream):
+    """Channels stream."""
+
+    name = "channels"
+    path = "/v4/channels"
+    primary_keys = ["guid"]
+    records_jsonpath = "$.channels[*]"
+
+    schema = th.PropertiesList(
+        th.Property(
+            "guid",
+            th.StringType,
+            description="The channel's unique identifier.",
+        ),
+        th.Property(
+            "name",
+            th.StringType,
+            description="The channel's name.",
+        ),
+        th.Property(
+            "created",
+            th.DateTimeType,
+            description="The date and time the channel was created.",
+        ),
+        th.Property(
+            "modified",
+            th.DateTimeType,
+            description="The date and time the channel was last modified.",
+        ),
+        th.Property(
+            "group_guid",
+            th.StringType,
+            description="The channel's group.",
+        ),
+        th.Property(
+            "references",
+            th.ObjectType(),
+            description="Mapping of channel references.",
+        ),
+    ).to_dict()
+
+
 class Organizations(BitlyStream):
     """Organizations stream."""
 
