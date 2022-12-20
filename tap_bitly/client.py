@@ -1,5 +1,7 @@
 """REST client handling, including BitlyStream base class."""
 
+from __future__ import annotations
+
 from singer_sdk import RESTStream
 from singer_sdk.authenticators import BearerTokenAuthenticator
 

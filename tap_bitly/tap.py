@@ -1,32 +1,11 @@
 """Bitly tap class."""
 
-from typing import List, Type
+from __future__ import annotations
 
 from singer_sdk import Stream, Tap
 from singer_sdk import typing as th
-from singer_sdk.streams import RESTStream
 
-from tap_bitly.streams import (
-    Bitlinks,
-    BrandedShortDomains,
-    Campaigns,
-    DailyBitlinkClicks,
-    Groups,
-    MonthlyBitlinkClicks,
-    Organizations,
-    Webhooks,
-)
-
-STREAM_TYPES: List[Type[RESTStream]] = [
-    Bitlinks,
-    BrandedShortDomains,
-    Campaigns,
-    Groups,
-    Organizations,
-    Webhooks,
-    DailyBitlinkClicks,
-    MonthlyBitlinkClicks,
-]
+from tap_bitly import streams
 
 
 class TapBitly(Tap):
@@ -42,16 +21,36 @@ class TapBitly(Tap):
             description="API Token for Bitly",
         ),
         th.Property(
+            "include_paid_streams",
+            th.BooleanType,
+            default=False,
+            description="Whether to sync paid streams",
+        ),
+        th.Property(
             "start_date",
             th.DateTimeType,
             description="Earliest datetime to get data from",
         ),
     ).to_dict()
 
-    def discover_streams(self) -> List[Stream]:
+    def discover_streams(self) -> list[Stream]:
         """Return a list of discovered streams.
 
         Returns:
             A list of Bitly streams.
         """
-        return [stream_class(tap=self) for stream_class in STREAM_TYPES]
+        bitly_streams = [
+            streams.Groups(self),
+            streams.Bitlinks(self),
+            streams.BrandedShortDomains(self),
+            streams.Campaigns(self),
+            streams.Channels(self),
+            streams.Organizations(self),
+            streams.DailyBitlinkClicks(self),
+            streams.MonthlyBitlinkClicks(self),
+        ]
+
+        if self.config.get("include_paid_streams"):
+            bitly_streams.append(streams.Webhooks(self))
+
+        return bitly_streams

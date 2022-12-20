@@ -20,6 +20,10 @@ plugins:
       kind: password
       label: API Token
       description: API Token for Bitly
+    - name: include_paid_streams
+      kind: boolean
+      label: Include Paid Streams
+      description: Include Paid Streams (`webhooks`)
     - name: start_date
       kind: date_iso8601
       label: Start Date

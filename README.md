@@ -1,8 +1,6 @@
 # `tap-bitly`
 
-Singer tap for Bitly.
-
-Built with the [Meltano Tap SDK](https://sdk.meltano.com) for Singer Taps.
+Singer tap for Bitly. Built with the [Meltano Singer SDK](https://sdk.meltano.com).
 
 ## Capabilities
 
@@ -11,16 +9,39 @@ Built with the [Meltano Tap SDK](https://sdk.meltano.com) for Singer Taps.
 * `discover`
 * `about`
 * `stream-maps`
+* `schema-flattening`
 
 ## Settings
 
-- [ ] `Developer TODO:` Declare tap settings here.
+| Setting              | Required | Default | Description                                                                                                                                 |
+| :------------------- | :------: | :-----: | :------------------------------------------------------------------------------------------------------------------------------------------ |
+| token                |   True   |  None   | API Token for Bitly                                                                                                                         |
+| include_paid_streams |  False   |  False  | Whether to sync paid streams                                                                                                                |
+| start_date           |  False   |  None   | Earliest datetime to get data from                                                                                                          |
+| stream_maps          |  False   |  None   | Config object for stream maps capability. For more information check out [Stream Maps](https://sdk.meltano.com/en/latest/stream_maps.html). |
+| stream_map_config    |  False   |  None   | User-defined config values to be used within map expressions.                                                                               |
+| flattening_enabled   |  False   |  None   | 'True' to enable schema flattening and automatically expand nested properties.                                                              |
+| flattening_max_depth |  False   |  None   | The max depth to flatten schemas.                                                                                                           |
+
+## Supported Streams
+
+| Stream Name              | Endpoint                                                                                           | Notes                 |
+| :----------------------- | :------------------------------------------------------------------------------------------------- | :-------------------- |
+| `groups`                 | [/v4/groups](https://dev.bitly.com/api-reference/#getGroups)                                       |                       |
+| `bitlinks`               | [/v4/groups/{group_guid}/bitlinks](https://dev.bitly.com/api-reference/#getBitlinksByGroup)        |                       |
+| `bsds`                   | [/v4/bsds](https://dev.bitly.com/api-reference/#getBSDs)                                           |                       |
+| `campaigns`              | [/v4/campaigns](https://dev.bitly.com/api-reference/#getCampaigns)                                 |                       |
+| `channels`               | [/v4/channels](https://dev.bitly.com/api-reference/#getChannels)                                   |                       |
+| `organizations`          | [/v4/organizations](https://dev.bitly.com/api-reference/#getOrganizations)                         |                       |
+| `webhooks`               | [/v4/organizations/{organization_guid}/webhooks](https://dev.bitly.com/api-reference/#getWebhooks) | Requires paid account |
+| `daily_bitlink_clicks`   | [/v4/bitlinks/{bitlink}/clicks](https://dev.bitly.com/api-reference/#getClicksForBitlink)          |                       |
+| `monthly_bitlink_clicks` | [/v4/bitlinks/{bitlink}/clicks](https://dev.bitly.com/api-reference/#getClicksForBitlink)          |                       |
 
 A full list of supported settings and capabilities is available by running: `tap-bitly --about`
 
 ### Source Authentication and Authorization
 
-- [ ] `Developer TODO:` If your tap requires special access on the source system, or any special authentication requirements, provide those here.
+Generate an access token from the [Bitly API Console](https://app.bitly.com/settings/api/).
 
 ## Usage
 
@@ -35,8 +56,6 @@ tap-bitly --config CONFIG --discover > ./catalog.json
 ```
 
 ## Developer Resources
-
-- [ ] `Developer TODO:` As a first step, scan the entire project for the text "`TODO:`" and complete any recommended steps, deleting the "TODO" references once completed.
 
 ### Initialize your Development Environment
 
@@ -64,10 +83,7 @@ poetry run tap-bitly --help
 _**Note:** This tap will work in any Singer environment and does not require Meltano.
 Examples here are for convenience and to streamline end-to-end orchestration scenarios._
 
-Your project comes with a custom `meltano.yml` project file already created. Open the `meltano.yml` and follow any _"TODO"_ items listed in
-the file.
-
-Next, install Meltano (if you haven't already) and any needed plugins:
+Install Meltano (if you haven't already) and any needed plugins:
 
 ```bash
 # Install meltano
