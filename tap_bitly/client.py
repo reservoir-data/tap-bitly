@@ -11,7 +11,7 @@ class BitlyStream(RESTStream):
 
     url_base = "https://api-ssl.bitly.com"
     records_jsonpath = "$[*]"
-    next_page_token_jsonpath = "$.next_page"
+    next_page_token_jsonpath = "$.next_page"  # noqa: S105
     _page_size = 100
 
     @property

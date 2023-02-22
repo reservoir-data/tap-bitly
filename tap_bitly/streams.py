@@ -2,14 +2,16 @@
 
 from __future__ import annotations
 
-from typing import Any, Iterable
+from typing import TYPE_CHECKING, Any, Iterable
 from urllib.parse import ParseResult, parse_qs
 
-import requests
 from singer_sdk import typing as th
 from singer_sdk.pagination import BaseHATEOASPaginator
 
 from tap_bitly.client import BitlyStream
+
+if TYPE_CHECKING:
+    import requests
 
 
 class BitlinksPaginator(BaseHATEOASPaginator):
@@ -91,7 +93,11 @@ class Groups(BitlyStream):
         ),
     ).to_dict()
 
-    def get_child_context(self, record: dict, context: dict | None = None) -> dict:
+    def get_child_context(
+        self,
+        record: dict,
+        context: dict | None = None,  # noqa: ARG002
+    ) -> dict:
         """Get child context for a record.
 
         Args:
@@ -168,7 +174,7 @@ class Bitlinks(BitlyStream):
 
     def get_url_params(
         self,
-        context: dict | None,
+        context: dict | None,  # noqa: ARG002
         next_page_token: ParseResult | None,
     ) -> dict[str, Any]:
         """Get URL parameters.
@@ -189,7 +195,11 @@ class Bitlinks(BitlyStream):
 
         return params
 
-    def get_child_context(self, record: dict, context: dict | None) -> dict:
+    def get_child_context(
+        self,
+        record: dict,
+        context: dict | None,  # noqa: ARG002
+    ) -> dict:
         """Get child context for a record.
 
         Args:
@@ -279,7 +289,7 @@ class Campaigns(BitlyStream):
         th.Property(
             "references",
             th.ObjectType(
-                # th.Property("group", th.StringType),
+                # th.Property("group", th.StringType),  # noqa: ERA001
             ),
             description="Mapping of campaign references.",
         ),
@@ -349,7 +359,7 @@ class Organizations(BitlyStream):
                     "groups",
                     th.StringType,
                     description="The organization's groups.",
-                )
+                ),
             ),
             description="Mapping of organization references.",
         ),
@@ -392,7 +402,11 @@ class Organizations(BitlyStream):
         ),
     ).to_dict()
 
-    def get_child_context(self, record: dict, context: dict | None) -> dict:
+    def get_child_context(
+        self,
+        record: dict,
+        context: dict | None,  # noqa: ARG002
+    ) -> dict:
         """Get child context for a record.
 
         Args:
@@ -526,8 +540,8 @@ class MonthlyBitlinkClicks(DailyBitlinkClicks):
 
     def get_url_params(
         self,
-        context: dict | None,
-        next_page_token: Any | None,
+        context: dict | None,  # noqa: ARG002
+        next_page_token: Any | None,  # noqa: ARG002
     ) -> dict[str, Any]:
         """Get URL parameters.
 
