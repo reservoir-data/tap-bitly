@@ -2,19 +2,18 @@
 
 from __future__ import annotations
 
-from singer_sdk.testing import get_standard_tap_tests
+from singer_sdk.testing import SuiteConfig, get_tap_test_class
 
 from tap_bitly.tap import TapBitly
 
-SAMPLE_CONFIG: dict = {}
-
-
-# Run standard built-in tap tests from the SDK:
-def test_standard_tap_tests():
-    """Run standard tap tests from the SDK."""
-    tests = get_standard_tap_tests(TapBitly, config=SAMPLE_CONFIG)
-    for test in tests:
-        test()
-
-
-# TODO: Create additional tests as appropriate for your tap.
+TestTapBitly = get_tap_test_class(
+    TapBitly,
+    config={},
+    suite_config=SuiteConfig(
+        ignore_no_records_for_streams=[
+            "bsds",
+            "campaigns",
+            "channels",
+        ],
+    ),
+)
