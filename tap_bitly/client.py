@@ -34,6 +34,4 @@ class BitlyStream(RESTStream):
         Returns:
             A dictionary of HTTP headers.
         """
-        headers = {}
-        headers["User-Agent"] = f"{self.tap_name}/{self._tap.plugin_version}"
-        return headers
+        return {"User-Agent": f"{self.tap_name}/{self._tap.plugin_version}"}
