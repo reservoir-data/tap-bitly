@@ -63,7 +63,7 @@ unfixable = [
 "noxfile.py" = ["ANN"]
 "tests/*" = [
   "ANN201", # missing-return-type-public-function
-  "S101", # assert
+  "S101",   # assert
   "SLF001", # private-member-access
 ]
 
