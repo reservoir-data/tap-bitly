@@ -1,6 +1,13 @@
+[build-system]
+build-backend = "poetry.core.masonry.api"
+requires = [
+  "poetry-core==1.6",
+  "poetry-dynamic-versioning",
+]
+
 [tool.poetry]
 name = "tap-bitly"
-version = "0.0.1"
+version = "0.0.0"
 description = "`tap-bitly` is a Singer tap for Bitly, built with the Meltano SDK for Singer Taps."
 authors = ["Edgar Ramirez-Mondragon <edgarrm358@gmail.com>"]
 keywords = [
@@ -20,26 +27,6 @@ singer-sdk = "0.28.0"
 
 [tool.poetry.group.dev.dependencies]
 singer-sdk = {version = "*", extras = ["testing"]}
-
-[tool.isort]
-profile = "black"
-multi_line_output = 3 # Vertical Hanging Indent
-src_paths = "tap_bitly"
-
-[tool.pytest.ini_options]
-addopts = "-vvv"
-
-[tool.mypy]
-python_version = "3.10"
-warn_unused_configs = true
-
-[[tool.mypy.overrides]]
-ignore_missing_imports = true
-module = ["backoff.*"]
-
-[build-system]
-requires = ["poetry-core>=1.0.8"]
-build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 # CLI declaration
@@ -69,6 +56,33 @@ unfixable = [
 
 [tool.ruff.isort]
 known-first-party = ["tap_bitly"]
+required-imports = ["from __future__ import annotations"]
 
 [tool.ruff.pydocstyle]
 convention = "google"
+
+[tool.pytest.ini_options]
+addopts = "-vvv"
+
+[tool.mypy]
+python_version = "3.10"
+warn_unused_configs = true
+
+[[tool.mypy.overrides]]
+ignore_missing_imports = true
+module = ["backoff.*"]
+
+[tool.poetry-dynamic-versioning]
+enable = true
+format-jinja = """
+    {%- if distance == 0 -%}
+        {{ serialize_pep440(base, stage, revision) }}
+    {%- elif revision is not none -%}
+        {{ serialize_pep440(base, stage, revision + 1, dev=distance, metadata=[commit]) }}
+    {%- else -%}
+        {{ serialize_pep440(bump_version(base), stage, revision, dev=distance, metadata=[commit]) }}
+    {%- endif -%}
+"""
+metadata = true
+style = "pep440"
+vcs = "git"
