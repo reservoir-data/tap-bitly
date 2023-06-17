@@ -9,6 +9,7 @@ jobs:
       FORCE_COLOR: "1"
       NOXPYTHON: tests
       NOXSESSION: ${{ matrix.python-version }}
+      PIP_CONSTRAINT: .github/workflows/constraints.txt
       SETUPTOOLS_USE_DISTUTILS: stdlib
     strategy:
       matrix:
@@ -24,23 +25,16 @@ jobs:
         python-version: ${{ matrix.python-version }}
 
     - name: Upgrade pip
-      env:
-        PIP_CONSTRAINT: .github/workflows/constraints.txt
       run: |
         pip install pip
         pip --version
 
     - name: Install Poetry
-      env:
-        NOXSESSION: tests-${{ matrix.python-version }}
-        PIP_CONSTRAINT: .github/workflows/constraints.txt
       run: |
         pipx install poetry
         poetry --version
 
     - name: Install Nox
-      env:
-        PIP_CONSTRAINT: .github/workflows/constraints.txt
       run: |
         pipx install nox
         pipx inject nox nox-poetry
