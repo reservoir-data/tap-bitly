@@ -4,7 +4,7 @@
   <a href="https://results.pre-commit.ci/latest/github/edgarrmondragon/tap-bitly/main">
     <img alt="pre-commit.ci status" src="https://results.pre-commit.ci/badge/github/edgarrmondragon/tap-bitly/main.svg"/>
   </a>
-  <a href="https://github.com/edgarrmondragon/tap-pipedream/blob/main/LICENSE">
+  <a href="https://github.com/edgarrmondragon/tap-bitly/blob/main/LICENSE">
     <img alt="License" src="https://img.shields.io/github/license/edgarrmondragon/tap-bitly"/>
   </a>
   <a href="https://github.com/astral-sh/ruff">
