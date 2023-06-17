@@ -6,6 +6,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
+      FORCE_COLOR: "1"
+      NOXPYTHON: ${{ matrix.python-version }}
+      NOXSESSION: tests
+      PIP_CONSTRAINT: .github/workflows/constraints.txt
       SETUPTOOLS_USE_DISTUTILS: stdlib
     strategy:
       matrix:
@@ -21,31 +25,26 @@ jobs:
         python-version: ${{ matrix.python-version }}
 
     - name: Upgrade pip
-      env:
-        PIP_CONSTRAINT: .github/workflows/constraints.txt
       run: |
         pip install pip
         pip --version
 
     - name: Install Poetry
-      env:
-        PIP_CONSTRAINT: .github/workflows/constraints.txt
       run: |
         pipx install poetry
         poetry --version
 
-    - name: Install tox
-      env:
-        PIP_CONSTRAINT: .github/workflows/constraints.txt
+    - name: Install Nox
       run: |
-        pipx install tox
-        tox --version
+        pipx install nox
+        pipx inject nox nox-poetry
+        nox --version
 
-    - name: Run tests with Tox
+    - name: Run Nox
       env:
         TAP_BITLY_TOKEN: ${{ secrets.TAP_BITLY_TOKEN }}
       run: |
-        tox -e pytest
+        nox
 
   pre-commit:
     runs-on: ubuntu-latest
