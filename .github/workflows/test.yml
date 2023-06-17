@@ -7,8 +7,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       FORCE_COLOR: "1"
-      NOXPYTHON: tests
-      NOXSESSION: ${{ matrix.python-version }}
+      NOXPYTHON: ${{ matrix.python-version }}
+      NOXSESSION: tests
       PIP_CONSTRAINT: .github/workflows/constraints.txt
       SETUPTOOLS_USE_DISTUTILS: stdlib
     strategy:
@@ -40,7 +40,7 @@ jobs:
         pipx inject nox nox-poetry
         nox --version
 
-    - name: Run tests with Tox
+    - name: Run Nox
       env:
         TAP_BITLY_TOKEN: ${{ secrets.TAP_BITLY_TOKEN }}
       run: |
