@@ -1,6 +1,20 @@
-# `tap-bitly`
+# tap-bitly
 
-Singer tap for Bitly. Built with the [Meltano Singer SDK](https://sdk.meltano.com).
+<div>
+  <a href="https://results.pre-commit.ci/latest/github/edgarrmondragon/tap-bitly/main">
+    <img alt="pre-commit.ci status" src="https://results.pre-commit.ci/badge/github/edgarrmondragon/tap-bitly/main.svg"/>
+  </a>
+  <a href="https://github.com/edgarrmondragon/tap-pipedream/blob/main/LICENSE">
+    <img alt="License" src="https://img.shields.io/github/license/edgarrmondragon/tap-bitly"/>
+  </a>
+  <a href="https://github.com/astral-sh/ruff">
+    <img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/charliermarsh/ruff/main/assets/badge/v2.json" alt="Ruff" style="max-width:100%;">
+  </a>
+</div>
+
+Singer tap for [Bitly](https://bitly.com/). Built with the [Meltano Singer SDK](https://sdk.meltano.com).
+
+</div>
 
 ## Capabilities
 
