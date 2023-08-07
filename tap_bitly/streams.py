@@ -28,10 +28,7 @@ class BitlinksPaginator(BaseHATEOASPaginator):
         """
         next_url = response.json().get("pagination", {}).get("next")
 
-        if next_url:
-            return next_url
-
-        return None
+        return next_url or None
 
 
 class Groups(BitlyStream):
@@ -541,7 +538,7 @@ class MonthlyBitlinkClicks(DailyBitlinkClicks):
     def get_url_params(
         self,
         context: dict | None,  # noqa: ARG002
-        next_page_token: Any | None,  # noqa: ARG002
+        next_page_token: Any | None,  # noqa: ARG002, ANN401
     ) -> dict[str, Any]:
         """Get URL parameters.
 
