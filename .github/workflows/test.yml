@@ -12,7 +12,6 @@ jobs:
     env:
       FORCE_COLOR: "1"
       NOXPYTHON: ${{ matrix.python-version }}
-      NOXSESSION: tests
       PIP_CONSTRAINT: .github/workflows/constraints.txt
       SETUPTOOLS_USE_DISTUTILS: stdlib
     strategy:
@@ -44,8 +43,12 @@ jobs:
         pipx inject nox nox-poetry
         nox --version
 
-    - name: Run Nox
+    - name: Run Tests
       env:
         TAP_BITLY_TOKEN: ${{ secrets.TAP_BITLY_TOKEN }}
       run: |
-        nox
+        nox -s tests
+
+    - name: Check dependencies
+      run: |
+        nox -s deps
