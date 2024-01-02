@@ -3,32 +3,50 @@ name: Test tap-bitly
 on:
   push:
     branches: [main]
+    paths:
+    - tap_bitly/**
+    - tests/**
+    - pyproject.toml
+    - .github/workflows/test.yml
+    - .github/workflows/constraints.txt
   pull_request:
-    branches: [main]
+    types: [opened, synchronize, reopened]
+    paths:
+    - tap_bitly/**
+    - tests/**
+    - pyproject.toml
+    - .github/workflows/test.yml
+    - .github/workflows/constraints.txt
+  schedule:
+  - cron: "0 10 * * *"
+  workflow_dispatch:
 
 jobs:
   test:
     runs-on: ubuntu-latest
     env:
       FORCE_COLOR: "1"
-      NOXPYTHON: ${{ matrix.python-version }}
       PIP_CONSTRAINT: .github/workflows/constraints.txt
-      SETUPTOOLS_USE_DISTUTILS: stdlib
     strategy:
+      fail-fast: false
       matrix:
-        python-version: ["3.8", "3.9", "3.10", "3.11"]
+        script: ["test:integration"]
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+        include:
+        - { script: "test:dependencies", python-version: "3.11" }
+        - { script: "typing:check",      python-version: "3.11" }
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4.1.1
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
 
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4.7.1
+    - uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
         cache: pip
         cache-dependency-path: |
-          poetry.lock
+          pyproject.toml
           .github/workflows/constraints.txt
 
     - name: Upgrade pip
@@ -36,23 +54,13 @@ jobs:
         pip install pip
         pip --version
 
-    - name: Install Poetry
+    - name: Install Hatch
       run: |
-        pipx install poetry
-        poetry --version
+        pipx install hatch --python "python${{ matrix.python-version }}"
+        hatch --version
 
-    - name: Install Nox
-      run: |
-        pipx install nox
-        pipx inject nox nox-poetry
-        nox --version
-
-    - name: Run Tests
+    - name: Run
       env:
         TAP_BITLY_TOKEN: ${{ secrets.TAP_BITLY_TOKEN }}
       run: |
-        nox -s tests
-
-    - name: Check dependencies
-      run: |
-        nox -s deps
+        hatch run ${{ matrix.script }}

@@ -1,57 +1,77 @@
 [build-system]
-build-backend = "poetry.core.masonry.api"
+build-backend = "hatchling.build"
 requires = [
-  "poetry-core==1.6",
-  "poetry-dynamic-versioning",
+  "hatch-vcs",
+  "hatchling",
 ]
 
-[tool.poetry]
+[project]
 name = "tap-bitly"
-version = "0.0.0"
 description = "`tap-bitly` is a Singer tap for Bitly, built with the Meltano SDK for Singer Taps."
-authors = ["Edgar Ramirez-Mondragon <edgarrm358@gmail.com>"]
+readme = "README.md"
 keywords = [
+  "Bitly",
   "ELT",
   "singer.io",
-  "Bitly",
 ]
 license = "Apache-2.0"
-readme = "README.md"
-homepage = "https://github.com/edgarrmondragon/tap-bitly"
-repository = "https://github.com/edgarrmondragon/tap-bitly"
-documentation = "https://github.com/edgarrmondragon/tap-bitly#readme"
+maintainers = [{ name = "Edgar Ramirez-Mondragon", email = "edgarrm358@gmail.com" }]
+authors = [{ name = "Edgar Ramirez-Mondragon", email = "edgarrm358@gmail.com" }]
+requires-python = ">=3.8"
+classifiers = [
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+]
+dynamic = [
+  "version",
+]
+dependencies = [
+  "requests>=2",
+  "singer-sdk~=0.34.0",
+]
+optional-dependencies.dev = [
+  "tap-bitly[testing,typing]",
+]
+optional-dependencies.testing = [
+  "deptry>=0.12",
+  "pytest>=7.4",
+  "pytest-durations",
+  "pytest-github-actions-annotate-failures",
+  "singer-sdk[testing]~=0.34.0",
+]
+optional-dependencies.typing = [
+  "mypy",
+  "types-requests",
+]
+urls.documentation = "https://github.com/edgarrmondragon/tap-bitly#readme"
+urls.homepage = "https://github.com/edgarrmondragon/tap-bitly"
+urls.repository = "https://github.com/edgarrmondragon/tap-bitly"
+scripts.tap-bitly = "tap_bitly.tap:TapBitly.cli"
 
-[tool.poetry.dependencies]
-python = ">=3.8,<4"
-requests = ">=2"
-singer-sdk = "~=0.34.0"
+[tool.hatch.version]
+source = "vcs"
 
-[tool.poetry.group.dev.dependencies]
-deptry = ">=0.12.0"
-singer-sdk = {version = "*", extras = ["testing"]}
+[tool.hatch.envs.sync.scripts]
+console = "tap-bitly {args}"
+jsonl = "tap-bitly {args} > tap-bitly.jsonl"
 
-[tool.poetry.scripts]
-# CLI declaration
-tap-bitly = "tap_bitly.tap:TapBitly.cli"
+[tool.hatch.envs.test]
+features = ["testing"]
+[tool.hatch.envs.test.scripts]
+integration = "pytest {args:tests}"
+dependencies = "deptry ."
 
-[tool.poetry-dynamic-versioning]
-enable = true
-format-jinja = """
-    {%- if distance == 0 -%}
-        {{ serialize_pep440(base, stage, revision) }}
-    {%- elif revision is not none -%}
-        {{ serialize_pep440(base, stage, revision + 1, dev=distance, metadata=[commit]) }}
-    {%- else -%}
-        {{ serialize_pep440(bump_version(base), stage, revision, dev=distance, metadata=[commit]) }}
-    {%- endif -%}
-"""
-metadata = true
-style = "pep440"
-vcs = "git"
+[tool.hatch.envs.typing]
+features = ["testing", "typing"]
+[tool.hatch.envs.typing.scripts]
+check = "mypy --strict {args:tap_bitly tests}"
 
 [tool.ruff]
 line-length = 88
-src = ["tap_bitly", "tests"]
 target-version = "py38"
 
 [tool.ruff.lint]
@@ -82,8 +102,19 @@ required-imports = ["from __future__ import annotations"]
 [tool.ruff.lint.pydocstyle]
 convention = "google"
 
-[tool.deptry]
-known_first_party = ["tap_bitly"]
+[tool.deptry.package_module_name_map]
+mypy = "mypy"
+tap-bitly = "tap_bitly"
+types-requests = "requests"
+
+[tool.deptry.per_rule_ignores]
+DEP002 = [
+  "deptry",
+  "mypy",
+  "pytest",
+  "pytest-durations",
+  "pytest-github-actions-annotate-failures",
+]
 
 [tool.pytest.ini_options]
 addopts = "-vvv"

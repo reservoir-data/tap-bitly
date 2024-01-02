@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Iterable
+import typing as t
 from urllib.parse import ParseResult, parse_qs
 
 from singer_sdk import typing as th
@@ -10,7 +10,7 @@ from singer_sdk.pagination import BaseHATEOASPaginator
 
 from tap_bitly.client import BitlyStream
 
-if TYPE_CHECKING:
+if t.TYPE_CHECKING:
     import requests
 
 
@@ -36,7 +36,7 @@ class Groups(BitlyStream):
 
     name = "groups"
     path = "/v4/groups"
-    primary_keys = ("guid",)
+    primary_keys = ("guid",)  # type: ignore[assignment]
     records_jsonpath = "$.groups[*]"
     replication_key = None
 
@@ -92,9 +92,9 @@ class Groups(BitlyStream):
 
     def get_child_context(
         self,
-        record: dict,
-        context: dict | None = None,  # noqa: ARG002
-    ) -> dict:
+        record: dict[str, t.Any],
+        context: dict[str, t.Any] | None = None,  # noqa: ARG002
+    ) -> dict[str, t.Any]:
         """Get child context for a record.
 
         Args:
@@ -112,7 +112,7 @@ class Bitlinks(BitlyStream):
 
     name = "bitlinks"
     path = "/v4/groups/{group_guid}/bitlinks"
-    primary_keys = ("id",)
+    primary_keys = ("id",)  # type: ignore[assignment]
     records_jsonpath = "$.links[*]"
     replication_key = None
     parent_stream_type = Groups
@@ -171,9 +171,9 @@ class Bitlinks(BitlyStream):
 
     def get_url_params(
         self,
-        context: dict | None,  # noqa: ARG002
+        context: dict[str, t.Any] | None,  # noqa: ARG002
         next_page_token: ParseResult | None,
-    ) -> dict[str, Any]:
+    ) -> dict[str, t.Any]:
         """Get URL parameters.
 
         Args:
@@ -194,9 +194,9 @@ class Bitlinks(BitlyStream):
 
     def get_child_context(
         self,
-        record: dict,
-        context: dict | None,  # noqa: ARG002
-    ) -> dict:
+        record: dict[str, t.Any],
+        context: dict[str, t.Any] | None,  # noqa: ARG002
+    ) -> dict[str, t.Any]:
         """Get child context for a record.
 
         Args:
@@ -214,7 +214,7 @@ class BrandedShortDomains(BitlyStream):
 
     name = "bsds"
     path = "/v4/bsds"
-    primary_keys = ("domain",)
+    primary_keys = ("domain",)  # type: ignore[assignment]
 
     schema = th.PropertiesList(
         th.Property(
@@ -225,7 +225,10 @@ class BrandedShortDomains(BitlyStream):
         ),
     ).to_dict()
 
-    def parse_response(self, response: requests.Response) -> Iterable[dict]:
+    def parse_response(
+        self,
+        response: requests.Response,
+    ) -> t.Iterable[dict[str, t.Any]]:
         """Parse response for a request.
 
         Args:
@@ -243,7 +246,7 @@ class Campaigns(BitlyStream):
 
     name = "campaigns"
     path = "/v4/campaigns"
-    primary_keys = ("guid",)
+    primary_keys = ("guid",)  # type: ignore[assignment]
     records_jsonpath = "$.campaigns[*]"
 
     schema = th.PropertiesList(
@@ -298,7 +301,7 @@ class Channels(BitlyStream):
 
     name = "channels"
     path = "/v4/channels"
-    primary_keys = ("guid",)
+    primary_keys = ("guid",)  # type: ignore[assignment]
     records_jsonpath = "$.channels[*]"
 
     schema = th.PropertiesList(
@@ -340,7 +343,7 @@ class Organizations(BitlyStream):
 
     name = "organizations"
     path = "/v4/organizations"
-    primary_keys = ("guid",)
+    primary_keys = ("guid",)  # type: ignore[assignment]
     records_jsonpath = "$.organizations[*]"
 
     schema = th.PropertiesList(
@@ -401,9 +404,9 @@ class Organizations(BitlyStream):
 
     def get_child_context(
         self,
-        record: dict,
-        context: dict | None,  # noqa: ARG002
-    ) -> dict:
+        record: dict[str, t.Any],
+        context: dict[str, t.Any] | None,  # noqa: ARG002
+    ) -> dict[str, t.Any]:
         """Get child context for a record.
 
         Args:
@@ -421,7 +424,7 @@ class Webhooks(BitlyStream):
 
     name = "webhooks"
     path = "/v4/organizations/{organization_guid}/webhooks"
-    primary_keys = ("guid",)
+    primary_keys = ("guid",)  # type: ignore[assignment]
     records_jsonpath = "$.webhooks[*]"
     parent_stream_type = Organizations
 
@@ -519,7 +522,7 @@ class DailyBitlinkClicks(BitlyStream):
 
     name = "daily_bitlink_clicks"
     path = "/v4/bitlinks/{bitlink}/clicks"
-    primary_keys = ("date", "bitlink")
+    primary_keys = ("date", "bitlink")  # type: ignore[assignment]
     records_jsonpath = "$.link_clicks[*]"
     parent_stream_type = Bitlinks
 
@@ -537,9 +540,9 @@ class MonthlyBitlinkClicks(DailyBitlinkClicks):
 
     def get_url_params(
         self,
-        context: dict | None,  # noqa: ARG002
-        next_page_token: Any | None,  # noqa: ARG002, ANN401
-    ) -> dict[str, Any]:
+        context: dict[str, t.Any] | None,  # noqa: ARG002
+        next_page_token: t.Any | None,  # noqa: ARG002, ANN401
+    ) -> dict[str, t.Any]:
         """Get URL parameters.
 
         Args:
