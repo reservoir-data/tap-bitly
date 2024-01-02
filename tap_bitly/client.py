@@ -2,11 +2,14 @@
 
 from __future__ import annotations
 
+import typing as t
+from urllib.parse import ParseResult
+
 from singer_sdk import RESTStream
 from singer_sdk.authenticators import BearerTokenAuthenticator
 
 
-class BitlyStream(RESTStream):
+class BitlyStream(RESTStream[ParseResult]):
     """Bitly stream class."""
 
     url_base = "https://api-ssl.bitly.com"
@@ -28,7 +31,7 @@ class BitlyStream(RESTStream):
         )
 
     @property
-    def http_headers(self) -> dict:
+    def http_headers(self) -> dict[str, t.Any]:
         """Return the http headers needed.
 
         Returns:
