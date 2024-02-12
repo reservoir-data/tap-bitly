@@ -36,7 +36,7 @@ class Groups(BitlyStream):
 
     name = "groups"
     path = "/v4/groups"
-    primary_keys = ("guid",)  # type: ignore[assignment]
+    primary_keys = ("guid",)
     records_jsonpath = "$.groups[*]"
     replication_key = None
 
@@ -112,7 +112,7 @@ class Bitlinks(BitlyStream):
 
     name = "bitlinks"
     path = "/v4/groups/{group_guid}/bitlinks"
-    primary_keys = ("id",)  # type: ignore[assignment]
+    primary_keys = ("id",)
     records_jsonpath = "$.links[*]"
     replication_key = None
     parent_stream_type = Groups
@@ -214,7 +214,7 @@ class BrandedShortDomains(BitlyStream):
 
     name = "bsds"
     path = "/v4/bsds"
-    primary_keys = ("domain",)  # type: ignore[assignment]
+    primary_keys = ("domain",)
 
     schema = th.PropertiesList(
         th.Property(
@@ -246,7 +246,7 @@ class Campaigns(BitlyStream):
 
     name = "campaigns"
     path = "/v4/campaigns"
-    primary_keys = ("guid",)  # type: ignore[assignment]
+    primary_keys = ("guid",)
     records_jsonpath = "$.campaigns[*]"
 
     schema = th.PropertiesList(
@@ -301,7 +301,7 @@ class Channels(BitlyStream):
 
     name = "channels"
     path = "/v4/channels"
-    primary_keys = ("guid",)  # type: ignore[assignment]
+    primary_keys = ("guid",)
     records_jsonpath = "$.channels[*]"
 
     schema = th.PropertiesList(
@@ -343,7 +343,7 @@ class Organizations(BitlyStream):
 
     name = "organizations"
     path = "/v4/organizations"
-    primary_keys = ("guid",)  # type: ignore[assignment]
+    primary_keys = ("guid",)
     records_jsonpath = "$.organizations[*]"
 
     schema = th.PropertiesList(
@@ -424,7 +424,7 @@ class Webhooks(BitlyStream):
 
     name = "webhooks"
     path = "/v4/organizations/{organization_guid}/webhooks"
-    primary_keys = ("guid",)  # type: ignore[assignment]
+    primary_keys = ("guid",)
     records_jsonpath = "$.webhooks[*]"
     parent_stream_type = Organizations
 
@@ -522,7 +522,7 @@ class DailyBitlinkClicks(BitlyStream):
 
     name = "daily_bitlink_clicks"
     path = "/v4/bitlinks/{bitlink}/clicks"
-    primary_keys = ("date", "bitlink")  # type: ignore[assignment]
+    primary_keys = ("date", "bitlink")
     records_jsonpath = "$.link_clicks[*]"
     parent_stream_type = Bitlinks
 
