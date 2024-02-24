@@ -77,7 +77,6 @@ check = "mypy --strict {args:tap_bitly tests}"
 
 [tool.ruff]
 line-length = 88
-target-version = "py38"
 
 [tool.ruff.lint]
 ignore = [
