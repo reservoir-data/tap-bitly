@@ -55,6 +55,9 @@ scripts.tap-bitly = "tap_bitly.tap:TapBitly.cli"
 [tool.hatch.version]
 source = "vcs"
 
+[tool.hatch.envs.default]
+installer = "uv"
+
 [tool.hatch.envs.sync.scripts]
 console = "tap-bitly {args}"
 jsonl = "tap-bitly {args} > tap-bitly.jsonl"
