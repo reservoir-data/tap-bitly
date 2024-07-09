@@ -29,11 +29,13 @@ classifiers = [
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
 ]
 dynamic = [
   "version",
 ]
 dependencies = [
+  "cffi>=1.17.0rc1; python_version>='3.13'",
   "requests>=2",
   "singer-sdk~=0.38.0",
 ]
@@ -62,6 +64,18 @@ source = "vcs"
 [tool.hatch.envs.default]
 installer = "uv"
 
+[tool.hatch.envs.default.overrides]
+env.GITHUB_ACTIONS.dev-mode = { value = false, if = [
+  "true",
+] }
+# https://github.com/PyO3/pyo3/pull/3821
+# https://github.com/PyO3/pyo3/issues/4038
+matrix.python.env-vars = [
+  { key = "PYO3_USE_ABI3_FORWARD_COMPATIBILITY", value = "1", if = [
+    "3.14",
+  ] },
+]
+
 [tool.hatch.envs.sync.scripts]
 console = "tap-bitly {args}"
 jsonl = "tap-bitly {args} > tap-bitly.jsonl"
@@ -83,6 +97,7 @@ python = [
   "3.10",
   "3.11",
   "3.12",
+  "3.13",
 ]
 
 [tool.hatch.envs.typing]
@@ -132,12 +147,16 @@ types-requests = "requests"
 
 [tool.deptry.per_rule_ignores]
 DEP002 = [
+  "cffi",
   "deptry",
   "mypy",
   "pytest",
   "pytest-durations",
   "pytest-github-actions-annotate-failures",
 ]
+
+[tool.pyproject-fmt]
+max_supported_python = "3.13"
 
 [tool.pytest.ini_options]
 addopts = "-vvv"
