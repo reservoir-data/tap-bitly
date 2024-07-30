@@ -12,6 +12,7 @@ from tap_bitly.client import BitlyStream
 
 if t.TYPE_CHECKING:
     import requests
+    from singer_sdk.helpers.types import Context
 
 
 class BitlinksPaginator(BaseHATEOASPaginator):
@@ -93,7 +94,7 @@ class Groups(BitlyStream):
     def get_child_context(
         self,
         record: dict[str, t.Any],
-        context: dict[str, t.Any] | None = None,  # noqa: ARG002
+        context: Context | None = None,  # noqa: ARG002
     ) -> dict[str, t.Any]:
         """Get child context for a record.
 
@@ -171,7 +172,7 @@ class Bitlinks(BitlyStream):
 
     def get_url_params(
         self,
-        context: dict[str, t.Any] | None,  # noqa: ARG002
+        context: Context | None,  # noqa: ARG002
         next_page_token: ParseResult | None,
     ) -> dict[str, t.Any]:
         """Get URL parameters.
@@ -195,7 +196,7 @@ class Bitlinks(BitlyStream):
     def get_child_context(
         self,
         record: dict[str, t.Any],
-        context: dict[str, t.Any] | None,  # noqa: ARG002
+        context: Context | None,  # noqa: ARG002
     ) -> dict[str, t.Any]:
         """Get child context for a record.
 
@@ -405,7 +406,7 @@ class Organizations(BitlyStream):
     def get_child_context(
         self,
         record: dict[str, t.Any],
-        context: dict[str, t.Any] | None,  # noqa: ARG002
+        context: Context | None,  # noqa: ARG002
     ) -> dict[str, t.Any]:
         """Get child context for a record.
 
@@ -540,7 +541,7 @@ class MonthlyBitlinkClicks(DailyBitlinkClicks):
 
     def get_url_params(
         self,
-        context: dict[str, t.Any] | None,  # noqa: ARG002
+        context: Context | None,  # noqa: ARG002
         next_page_token: t.Any | None,  # noqa: ARG002, ANN401
     ) -> dict[str, t.Any]:
         """Get URL parameters.
