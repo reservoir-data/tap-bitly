@@ -51,10 +51,10 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
         allow-prereleases: true
-        cache: pip
-        cache-dependency-path: |
-          pyproject.toml
-          .github/workflows/constraints.txt
+        # cache: pip
+        # cache-dependency-path: |
+        #   pyproject.toml
+        #   .github/workflows/constraints.txt
 
     - name: Upgrade pip
       run: |

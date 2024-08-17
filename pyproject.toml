@@ -60,6 +60,11 @@ scripts.tap-bitly = "tap_bitly.tap:TapBitly.cli"
 [tool.hatch.version]
 source = "vcs"
 
+[tool.hatch.envs.hatch-uv]
+dependencies = [
+  "uv==0.2.36",
+]
+
 [tool.hatch.envs.default]
 installer = "uv"
 
