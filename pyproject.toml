@@ -165,7 +165,6 @@ filterwarnings = [
 ]
 
 [tool.mypy]
-python_version = "3.12"
 warn_redundant_casts = true
 warn_return_any = true
 warn_no_return = true
