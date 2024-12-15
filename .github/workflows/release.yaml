@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: publishing
-      url: https://pypi.org/p/tap-bitly/${{ needs.build.outputs.package_version }}
+      url: https://pypi.org/project/tap-bitly/${{ needs.build.outputs.package_version }}
     needs: build
     permissions:
       contents: write
