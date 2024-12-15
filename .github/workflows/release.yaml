@@ -7,9 +7,12 @@ jobs:
   build:
     name: Build wheel and sdist
     runs-on: ubuntu-latest
+    outputs:
+      package_version: ${{ steps.baipp.outputs.package_version }}
     steps:
     - uses: actions/checkout@v4
     - uses: hynek/build-and-inspect-python-package@v2
+      id: baipp
 
   publish:
     name: Publish to PyPI
@@ -17,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: publishing
-      url: https://pypi.org/p/tap-bitly/
+      url: https://pypi.org/p/tap-bitly/${{ needs.build.outputs.package_version }}
     needs: build
     permissions:
       contents: write
