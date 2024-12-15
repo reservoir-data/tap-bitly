@@ -36,7 +36,7 @@ dynamic = [
 ]
 dependencies = [
   "requests>=2",
-  "singer-sdk~=0.42.1",
+  "singer-sdk~=0.43.0",
 ]
 optional-dependencies.dev = [
   "tap-bitly[testing,typing]",
@@ -110,7 +110,6 @@ lint.select = [
   "ALL",
 ]
 lint.ignore = [
-  "ANN101", # missing-type-self
   "COM812", # missing-trailing-comma
   "DJ",     # flake8-django
   "FIX002", # line-contains-todo
@@ -162,6 +161,7 @@ filterwarnings = [
   "default:No records returned in stream 'channels':UserWarning",
   "default:Fields in transformed catalog but not in records:UserWarning",
   "default:'asyncio.iscoroutinefunction' is deprecated:DeprecationWarning",
+  "default:Use `http_method` instead:singer_sdk.helpers._compat.SingerSDKDeprecationWarning",
 ]
 
 [tool.mypy]
