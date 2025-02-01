@@ -14,7 +14,8 @@ keywords = [
   "ELT",
   "singer.io",
 ]
-license.file = "LICENSE"
+license = "Apache-2.0"
+license-files = [ "LICENSE" ]
 maintainers = [
   { name = "Edgar Ramirez-Mondragon", email = "edgarrm358@gmail.com" },
 ]
@@ -177,3 +178,6 @@ ignore_missing_imports = true
 module = [
   "backoff.*",
 ]
+
+[tool.uv]
+required-version = ">=0.5.19"
