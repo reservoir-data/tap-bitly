@@ -3,11 +3,11 @@
 # tap-bitly
 
 <div>
-  <a href="https://results.pre-commit.ci/latest/github/edgarrmondragon/tap-bitly/main">
-    <img alt="pre-commit.ci status" src="https://results.pre-commit.ci/badge/github/edgarrmondragon/tap-bitly/main.svg"/>
+  <a href="https://results.pre-commit.ci/latest/github/reservoir-data/tap-bitly/main">
+    <img alt="pre-commit.ci status" src="https://results.pre-commit.ci/badge/github/reservoir-data/tap-bitly/main.svg"/>
   </a>
-  <a href="https://github.com/edgarrmondragon/tap-bitly/blob/main/LICENSE">
-    <img alt="License" src="https://img.shields.io/github/license/edgarrmondragon/tap-bitly"/>
+  <a href="https://github.com/reservoir-data/tap-bitly/blob/main/LICENSE">
+    <img alt="License" src="https://img.shields.io/github/license/reservoir-data/tap-bitly"/>
   </a>
   <a href="https://github.com/astral-sh/ruff">
     <img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/charliermarsh/ruff/main/assets/badge/v2.json" alt="Ruff" style="max-width:100%;">
