@@ -2,6 +2,9 @@ version = 1
 revision = 1
 requires-python = ">=3.9"
 
+[options]
+prerelease-mode = "allow"
+
 [[package]]
 name = "appdirs"
 version = "1.4.4"
@@ -828,8 +831,8 @@ wheels = [
 
 [[package]]
 name = "singer-sdk"
-version = "0.44.3"
-source = { registry = "https://pypi.org/simple" }
+version = "0.44.4.dev11+g74bd9831"
+source = { git = "https://github.com/meltano/sdk#74bd9831130b4862cae53860c39104f86713f4e2" }
 dependencies = [
     { name = "backoff", marker = "python_full_version < '4'" },
     { name = "backports-datetime-fromisoformat", marker = "python_full_version < '3.11'" },
@@ -852,10 +855,6 @@ dependencies = [
     { name = "simplejson" },
     { name = "sqlalchemy" },
     { name = "typing-extensions" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/a7/f8/8b0c0a75c749cc0c5f90a1060f79d365ea0b1c2c10a53c8aaeda14735b1f/singer_sdk-0.44.3.tar.gz", hash = "sha256:f2d7eacb4a05270613dc7c02cdcef383f3146e859a14dbdb7c207c90466c7701", size = 1404420 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/84/4e/ccbcab1185de53adc6ae4fcc7475a76d2b96b48c24d3df58e134c98fa1fd/singer_sdk-0.44.3-py3-none-any.whl", hash = "sha256:25cdde6552750485aaa0c98f5c5ba6bdd7e4c69e982c7d4c2631c6df3e64b1ae", size = 182898 },
 ]
 
 [package.optional-dependencies]
@@ -933,7 +932,7 @@ dependencies = [
     { name = "singer-sdk" },
 ]
 
-[package.optional-dependencies]
+[package.dev-dependencies]
 dev = [
     { name = "deptry" },
     { name = "mypy" },
@@ -957,24 +956,31 @@ typing = [
 
 [package.metadata]
 requires-dist = [
-    { name = "deptry", marker = "extra == 'dev'", specifier = ">=0.12" },
-    { name = "deptry", marker = "extra == 'testing'", specifier = ">=0.12" },
-    { name = "mypy", marker = "extra == 'dev'" },
-    { name = "mypy", marker = "extra == 'typing'" },
-    { name = "pytest", marker = "extra == 'dev'", specifier = ">=7.4" },
-    { name = "pytest", marker = "extra == 'testing'", specifier = ">=7.4" },
-    { name = "pytest-durations", marker = "extra == 'dev'" },
-    { name = "pytest-durations", marker = "extra == 'testing'" },
-    { name = "pytest-github-actions-annotate-failures", marker = "extra == 'dev'" },
-    { name = "pytest-github-actions-annotate-failures", marker = "extra == 'testing'" },
     { name = "requests", specifier = ">=2" },
-    { name = "singer-sdk", specifier = "~=0.44.0" },
-    { name = "singer-sdk", extras = ["testing"], marker = "extra == 'dev'" },
-    { name = "singer-sdk", extras = ["testing"], marker = "extra == 'testing'" },
-    { name = "types-requests", marker = "extra == 'dev'" },
-    { name = "types-requests", marker = "extra == 'typing'" },
+    { name = "singer-sdk", git = "https://github.com/meltano/sdk" },
 ]
-provides-extras = ["dev", "testing", "typing"]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "deptry", specifier = ">=0.12" },
+    { name = "mypy" },
+    { name = "pytest", specifier = ">=7.4" },
+    { name = "pytest-durations" },
+    { name = "pytest-github-actions-annotate-failures" },
+    { name = "singer-sdk", extras = ["testing"], git = "https://github.com/meltano/sdk" },
+    { name = "types-requests" },
+]
+testing = [
+    { name = "deptry", specifier = ">=0.12" },
+    { name = "pytest", specifier = ">=7.4" },
+    { name = "pytest-durations" },
+    { name = "pytest-github-actions-annotate-failures" },
+    { name = "singer-sdk", extras = ["testing"], git = "https://github.com/meltano/sdk" },
+]
+typing = [
+    { name = "mypy" },
+    { name = "types-requests" },
+]
 
 [[package]]
 name = "tomli"
@@ -1029,11 +1035,11 @@ wheels = [
 
 [[package]]
 name = "types-setuptools"
-version = "75.8.0.20250210"
+version = "75.8.0.20250225"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/c3/20/794589df23b1e7d3c1a1f86285e749f2a83ef845d90f2461bc2912b8f989/types_setuptools-75.8.0.20250210.tar.gz", hash = "sha256:c1547361b2441f07c94e25dce8a068e18c611593ad4b6fdd727b1a8f5d1fda33", size = 48240 }
+sdist = { url = "https://files.pythonhosted.org/packages/1f/ad/0747cfa03acc6cbeee3ce15704ac65fb4c7444f3cd5596c34d581e7366a7/types_setuptools-75.8.0.20250225.tar.gz", hash = "sha256:6038f7e983d55792a5f90d8fdbf5d4c186026214a16bb65dd6ae83c624ae9636", size = 48448 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/2d/b4/5978a63dac80d9a653fdb73f58e08b208486d303f9a3ee481f0c807630de/types_setuptools-75.8.0.20250210-py3-none-any.whl", hash = "sha256:a217d7b4d59be04c29e23d142c959a0f85e71292fd3fc4313f016ca11f0b56dc", size = 71535 },
+    { url = "https://files.pythonhosted.org/packages/0c/f2/6259d7d302d66a1df119baac81a06649c2cf5fa0a671278c408d43711cee/types_setuptools-75.8.0.20250225-py3-none-any.whl", hash = "sha256:94c86b439cc60bcc68c1cda3fd2c301f007f8f9502f4fbb54c66cb5ce9b875af", size = 71839 },
 ]
 
 [[package]]

@@ -12,8 +12,8 @@
   <a href="https://github.com/astral-sh/ruff">
     <img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/charliermarsh/ruff/main/assets/badge/v2.json" alt="Ruff" style="max-width:100%;">
   </a>
-  <a href="https://github.com/pypa/hatch">
-    <img alt="Hatch project" src="https://img.shields.io/badge/%F0%9F%A5%9A-Hatch-4051b5.svg"/>
+  <a href="https://github.com/astral-sh/uv">
+   <img alt="uv" src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json"/>
   </a>
 </div>
 
@@ -79,21 +79,15 @@ tap-bitly --config CONFIG --discover > ./catalog.json
 ### Initialize your Development Environment
 
 ```bash
-pipx install hatch
+uv tool install --with tox-uv tox
 ```
 
 ### Create and Run Tests
 
-Run integration tests:
+Run all tests:
 
 ```bash
-hatch run test:integration
-```
-
-You can also test the `tap-bitly` CLI interface directly:
-
-```bash
-hatch run sync:console -- --about --format=json
+tox run-parallel
 ```
 
 ### Testing with [Meltano](https://www.meltano.com)
