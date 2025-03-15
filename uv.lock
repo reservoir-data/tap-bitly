@@ -831,8 +831,8 @@ wheels = [
 
 [[package]]
 name = "singer-sdk"
-version = "0.45.0a1"
-source = { git = "https://github.com/meltano/sdk#3c076fca517fc4be10e3309efd7abdc048f589ef" }
+version = "0.45.0a2.dev1+gfa14033f"
+source = { git = "https://github.com/meltano/sdk#fa14033fdacd9f697bc2beb50a07597fb3703048" }
 dependencies = [
     { name = "backoff", marker = "python_full_version < '4'" },
     { name = "backports-datetime-fromisoformat", marker = "python_full_version < '3.11'" },
