@@ -10,6 +10,7 @@ TestTapBitly = get_tap_test_class(
     TapBitly,
     config={},
     suite_config=SuiteConfig(
+        max_records_limit=50,
         ignore_no_records_for_streams=[
             "bsds",
             "campaigns",
