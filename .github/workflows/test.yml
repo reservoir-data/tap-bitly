@@ -26,7 +26,7 @@ on:
 env:
   FORCE_COLOR: "1"
   # renovate: datasource=pypi depName=uv
-  UV_VERSION: 0.6.17
+  UV_VERSION: 0.7.12
   # renovate: datasource=pypi depName=tox
   TOX_VERSION: 4.26.0
   # renovate: datasource=pypi depName=tox-uv
@@ -39,8 +39,8 @@ jobs:
       PYO3_USE_ABI3_FORWARD_COMPATIBILITY: "1"
     strategy:
       fail-fast: false
+      max-parallel: 1
       matrix:
-        script: ["test:integration"]
         python-version:
         - "3.9"
         - "3.10"
@@ -62,7 +62,7 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
         allow-prereleases: true
-    - uses: astral-sh/setup-uv@6b9c6063abd6010835644d4c2e1bef4cf5cd0fca # v6.0.1
+    - uses: astral-sh/setup-uv@f0ec1fc3b38f5e7cd731bb6ce540c5af426746bb # v6.1.0
       with:
         version: ${{ env.UV_VERSION }}
     - name: Run

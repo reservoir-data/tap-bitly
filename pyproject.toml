@@ -7,7 +7,7 @@ requires = [
 
 [project]
 name = "tap-bitly"
-description = "`tap-bitly` is a Singer tap for Bitly, built with the Meltano SDK for Singer Taps."
+description = "Singer tap for Bitly, built with the Meltano SDK for Singer Taps."
 readme = "README.md"
 keywords = [
   "Bitly",
