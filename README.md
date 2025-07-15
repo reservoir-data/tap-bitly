@@ -109,7 +109,7 @@ Your project comes with a custom `meltano.yml` project file already created. Go 
    meltano invoke tap-bitly --version
    ```
 
-3. Execute an ELT pipeline
+3. Execute an EL pipeline
 
    ```bash
    meltano run tap-bitly target-jsonl
