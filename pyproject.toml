@@ -35,7 +35,6 @@ dynamic = [
   "version",
 ]
 dependencies = [
-  "requests>=2",
   "singer-sdk~=0.47.0",
 ]
 urls.Documentation = "https://github.com/edgarrmondragon/tap-bitly#readme"
