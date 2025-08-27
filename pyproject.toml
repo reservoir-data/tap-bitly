@@ -37,9 +37,9 @@ dynamic = [
 dependencies = [
   "singer-sdk~=0.48.0",
 ]
-urls.Documentation = "https://github.com/edgarrmondragon/tap-bitly#readme"
-urls.Homepage = "https://github.com/edgarrmondragon/tap-bitly"
-urls.Repository = "https://github.com/edgarrmondragon/tap-bitly"
+urls.Documentation = "https://github.com/reservoir-data/tap-bitly#readme"
+urls.Homepage = "https://github.com/reservoir-data/tap-bitly"
+urls.Repository = "https://github.com/reservoir-data/tap-bitly"
 scripts.tap-bitly = "tap_bitly.tap:TapBitly.cli"
 
 [dependency-groups]
