@@ -2,14 +2,20 @@
 
 from __future__ import annotations
 
-import typing as t
+import sys
+from typing import TYPE_CHECKING, Any
 
 from singer_sdk import Tap
 from singer_sdk import typing as th
 
 from tap_bitly import streams
 
-if t.TYPE_CHECKING:
+if sys.version_info >= (3, 12):
+    from typing import override
+else:
+    from typing_extensions import override
+
+if TYPE_CHECKING:
     from tap_bitly.client import BitlyStream
 
 
@@ -38,12 +44,8 @@ class TapBitly(Tap):
         ),
     ).to_dict()
 
-    def discover_streams(self) -> list[BitlyStream]:
-        """Return a list of discovered streams.
-
-        Returns:
-            A list of Bitly streams.
-        """
+    @override
+    def discover_streams(self) -> list[BitlyStream[Any]]:
         bitly_streams = [
             streams.Groups(self),
             streams.Bitlinks(self),

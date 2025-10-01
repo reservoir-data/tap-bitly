@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-import typing as t
+import sys
+from typing import TYPE_CHECKING, Any
 from urllib.parse import ParseResult, parse_qs
 
 from singer_sdk import typing as th
@@ -10,7 +11,14 @@ from singer_sdk.pagination import BaseHATEOASPaginator
 
 from tap_bitly.client import BitlyStream
 
-if t.TYPE_CHECKING:
+if sys.version_info >= (3, 12):
+    from typing import override
+else:
+    from typing_extensions import override
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
+
     import requests
     from singer_sdk.helpers.types import Context
 
@@ -18,21 +26,12 @@ if t.TYPE_CHECKING:
 class BitlinksPaginator(BaseHATEOASPaginator):
     """Bitlinks paginator."""
 
+    @override
     def get_next_url(self, response: requests.Response) -> str | None:
-        """Get the next URL for a response.
-
-        Args:
-            response: The response to get the next URL for.
-
-        Returns:
-            The next URL.
-        """
-        next_url = response.json().get("pagination", {}).get("next")
-
-        return next_url or None
+        return response.json().get("pagination", {}).get("next") or None
 
 
-class Groups(BitlyStream):
+class Groups(BitlyStream[Any]):
     """Users stream."""
 
     name = "groups"
@@ -91,11 +90,12 @@ class Groups(BitlyStream):
         ),
     ).to_dict()
 
+    @override
     def get_child_context(
         self,
-        record: dict[str, t.Any],
-        context: Context | None = None,  # noqa: ARG002
-    ) -> dict[str, t.Any]:
+        record: dict[str, Any],
+        context: Context | None = None,
+    ) -> dict[str, Any]:
         """Get child context for a record.
 
         Args:
@@ -108,7 +108,7 @@ class Groups(BitlyStream):
         return {"group_guid": record["guid"]}
 
 
-class Bitlinks(BitlyStream):
+class Bitlinks(BitlyStream[ParseResult]):
     """Bitlinks stream."""
 
     name = "bitlinks"
@@ -162,19 +162,16 @@ class Bitlinks(BitlyStream):
         th.Property("group_guid", th.StringType, description="The bitlink's group."),
     ).to_dict()
 
+    @override
     def get_new_paginator(self) -> BitlinksPaginator:
-        """Get a new paginator.
-
-        Returns:
-            The new paginator.
-        """
         return BitlinksPaginator()
 
+    @override
     def get_url_params(
         self,
-        context: Context | None,  # noqa: ARG002
+        context: Context | None,
         next_page_token: ParseResult | None,
-    ) -> dict[str, t.Any]:
+    ) -> dict[str, Any]:
         """Get URL parameters.
 
         Args:
@@ -193,24 +190,16 @@ class Bitlinks(BitlyStream):
 
         return params
 
+    @override
     def get_child_context(
         self,
-        record: dict[str, t.Any],
-        context: Context | None,  # noqa: ARG002
-    ) -> dict[str, t.Any]:
-        """Get child context for a record.
-
-        Args:
-            record: The record to get child context for.
-            context: The parent context.
-
-        Returns:
-            The child context.
-        """
+        record: dict[str, Any],
+        context: Context | None,
+    ) -> dict[str, Any]:
         return {"bitlink": record["id"]}
 
 
-class BrandedShortDomains(BitlyStream):
+class BrandedShortDomains(BitlyStream[Any]):
     """Branded Short Domains stream."""
 
     name = "bsds"
@@ -226,23 +215,13 @@ class BrandedShortDomains(BitlyStream):
         ),
     ).to_dict()
 
-    def parse_response(
-        self,
-        response: requests.Response,
-    ) -> t.Iterable[dict[str, t.Any]]:
-        """Parse response for a request.
-
-        Args:
-            response: The response to parse.
-
-        Yields:
-            The parsed records.
-        """
+    @override
+    def parse_response(self, response: requests.Response) -> Iterable[dict[str, Any]]:
         for bsd in response.json()["bsds"]:
             yield {"domain": bsd}
 
 
-class Campaigns(BitlyStream):
+class Campaigns(BitlyStream[Any]):
     """Campaigns stream."""
 
     name = "campaigns"
@@ -297,7 +276,7 @@ class Campaigns(BitlyStream):
     ).to_dict()
 
 
-class Channels(BitlyStream):
+class Channels(BitlyStream[Any]):
     """Channels stream."""
 
     name = "channels"
@@ -339,7 +318,7 @@ class Channels(BitlyStream):
     ).to_dict()
 
 
-class Organizations(BitlyStream):
+class Organizations(BitlyStream[Any]):
     """Organizations stream."""
 
     name = "organizations"
@@ -403,24 +382,16 @@ class Organizations(BitlyStream):
         ),
     ).to_dict()
 
+    @override
     def get_child_context(
         self,
-        record: dict[str, t.Any],
-        context: Context | None,  # noqa: ARG002
-    ) -> dict[str, t.Any]:
-        """Get child context for a record.
-
-        Args:
-            record: The record to get child context for.
-            context: The parent context.
-
-        Returns:
-            The child context.
-        """
+        record: dict[str, Any],
+        context: Context | None,
+    ) -> dict[str, Any]:
         return {"organization_guid": record["guid"]}
 
 
-class Webhooks(BitlyStream):
+class Webhooks(BitlyStream[Any]):
     """Webhooks stream."""
 
     name = "webhooks"
@@ -518,7 +489,7 @@ class Webhooks(BitlyStream):
     ).to_dict()
 
 
-class DailyBitlinkClicks(BitlyStream):
+class DailyBitlinkClicks(BitlyStream[Any]):
     """Daily bitlink clicks."""
 
     name = "daily_bitlink_clicks"
@@ -539,18 +510,10 @@ class MonthlyBitlinkClicks(DailyBitlinkClicks):
 
     name = "montly_bitlink_clicks"
 
+    @override
     def get_url_params(
         self,
-        context: Context | None,  # noqa: ARG002
-        next_page_token: t.Any | None,  # noqa: ARG002, ANN401
-    ) -> dict[str, t.Any]:
-        """Get URL parameters.
-
-        Args:
-            context: The stream sync context.
-            next_page_token: The next page token.
-
-        Returns:
-            The URL parameters.
-        """
+        context: Context | None,
+        next_page_token: Any | None,
+    ) -> dict[str, Any]:
         return {"unit": "month"}
