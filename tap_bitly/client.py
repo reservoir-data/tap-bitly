@@ -2,35 +2,29 @@
 
 from __future__ import annotations
 
-import typing as t
-from urllib.parse import ParseResult
+import sys
+from typing import Generic, TypeVar
 
 from singer_sdk import RESTStream
 from singer_sdk.authenticators import BearerTokenAuthenticator
 
+if sys.version_info >= (3, 12):
+    from typing import override
+else:
+    from typing_extensions import override
 
-class BitlyStream(RESTStream[ParseResult]):
+
+_T = TypeVar("_T")
+
+
+class BitlyStream(RESTStream[_T], Generic[_T]):
     """Bitly stream class."""
 
     url_base = "https://api-ssl.bitly.com"
     records_jsonpath = "$[*]"
-    next_page_token_jsonpath = "$.next_page"  # noqa: S105
     _page_size = 100
 
+    @override
     @property
     def authenticator(self) -> BearerTokenAuthenticator:
-        """Get an authenticator object.
-
-        Returns:
-            The authenticator instance for this REST stream.
-        """
         return BearerTokenAuthenticator(token=self.config["token"])
-
-    @property
-    def http_headers(self) -> dict[str, t.Any]:
-        """Return the http headers needed.
-
-        Returns:
-            A dictionary of HTTP headers.
-        """
-        return {"User-Agent": f"{self.tap_name}/{self._tap.plugin_version}"}
