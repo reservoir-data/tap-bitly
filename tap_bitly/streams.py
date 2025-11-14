@@ -16,12 +16,15 @@
 from __future__ import annotations
 
 import sys
+from importlib import resources
 from typing import TYPE_CHECKING, Any
 from urllib.parse import ParseResult, parse_qs
 
+from singer_sdk import OpenAPISchema, StreamSchema
 from singer_sdk import typing as th
 from singer_sdk.pagination import BaseHATEOASPaginator
 
+from tap_bitly import openapi
 from tap_bitly.client import BitlyStream
 
 if sys.version_info >= (3, 12):
@@ -34,6 +37,9 @@ if TYPE_CHECKING:
 
     import requests
     from singer_sdk.helpers.types import Context
+
+
+OPENAPI_SCHEMA = OpenAPISchema(resources.files(openapi) / "openapi.json")
 
 
 class BitlinksPaginator(BaseHATEOASPaginator):
@@ -53,55 +59,7 @@ class Groups(BitlyStream[Any]):
     records_jsonpath = "$.groups[*]"
     replication_key = None
 
-    schema = th.PropertiesList(
-        th.Property(
-            "guid",
-            th.StringType,
-            description="The group's unique identifier.",
-        ),
-        th.Property(
-            "name",
-            th.StringType,
-            description="The group's name.",
-        ),
-        th.Property(
-            "references",
-            th.ObjectType(
-                th.Property("organization", th.StringType),
-            ),
-            description="Mapping of group references.",
-        ),
-        th.Property(
-            "created",
-            th.DateTimeType,
-            description="The date and time the group was created.",
-        ),
-        th.Property(
-            "modified",
-            th.DateTimeType,
-            description="The date and time the group was last modified.",
-        ),
-        th.Property(
-            "bsds",
-            th.ArrayType(th.StringType()),
-            description="The group's branded short domains.",
-        ),
-        th.Property(
-            "organization_guid",
-            th.StringType,
-            description="The group's organization's unique identifier.",
-        ),
-        th.Property(
-            "is_active",
-            th.BooleanType,
-            description="Whether the group is active.",
-        ),
-        th.Property(
-            "role",
-            th.StringType,
-            description="The group's role.",
-        ),
-    ).to_dict()
+    schema = StreamSchema(OPENAPI_SCHEMA, key="Group")
 
     @override
     def get_child_context(
@@ -109,15 +67,6 @@ class Groups(BitlyStream[Any]):
         record: dict[str, Any],
         context: Context | None = None,
     ) -> dict[str, Any]:
-        """Get child context for a record.
-
-        Args:
-            record: The record to get child context for.
-            context: The parent context.
-
-        Returns:
-            The child context.
-        """
         return {"group_guid": record["guid"]}
 
 
@@ -131,49 +80,7 @@ class Bitlinks(BitlyStream[ParseResult]):
     replication_key = None
     parent_stream_type = Groups
 
-    schema = th.PropertiesList(
-        th.Property(
-            "id",
-            th.StringType,
-            description="The bitlink's unique identifier.",
-        ),
-        th.Property(
-            "created_at",
-            th.DateTimeType,
-            description="The date and time the bitlink was created.",
-        ),
-        th.Property("link", th.StringType, description="The bitlink's URL."),
-        th.Property(
-            "custom_bitlinks",
-            th.ArrayType(th.StringType()),
-            description="The bitlink's custom bitlinks.",
-        ),
-        th.Property("long_url", th.StringType, description="The bitlink's URL."),
-        th.Property("title", th.StringType, description="The bitlink's title."),
-        th.Property(
-            "archived",
-            th.BooleanType,
-            description="Whether the bitlink is archived.",
-        ),
-        th.Property("created_by", th.StringType, description="The bitlink's creator."),
-        th.Property("client_id", th.StringType, description="The bitlink's client ID."),
-        th.Property(
-            "tags",
-            th.ArrayType(th.StringType()),
-            description="The bitlink's tags.",
-        ),
-        th.Property(
-            "deeplinks",
-            th.ArrayType(th.StringType()),
-            description="The bitlink's deeplinks.",
-        ),
-        th.Property(
-            "references",
-            th.ObjectType(th.Property("group", th.StringType)),
-            description="Mapping of bitlink references.",
-        ),
-        th.Property("group_guid", th.StringType, description="The bitlink's group."),
-    ).to_dict()
+    schema = StreamSchema(OPENAPI_SCHEMA, key="BitlinkBody")
 
     @override
     def get_new_paginator(self) -> BitlinksPaginator:
@@ -185,15 +92,6 @@ class Bitlinks(BitlyStream[ParseResult]):
         context: Context | None,
         next_page_token: ParseResult | None,
     ) -> dict[str, Any]:
-        """Get URL parameters.
-
-        Args:
-            context: The stream sync context.
-            next_page_token: The next page token.
-
-        Returns:
-            The URL parameters.
-        """
         params = {
             "archived": "both",
             "size": self._page_size,
@@ -242,51 +140,7 @@ class Campaigns(BitlyStream[Any]):
     primary_keys = ("guid",)
     records_jsonpath = "$.campaigns[*]"
 
-    schema = th.PropertiesList(
-        th.Property(
-            "guid",
-            th.StringType,
-            description="The campaign's unique identifier.",
-            required=True,
-        ),
-        th.Property(
-            "group_guid",
-            th.StringType,
-            description="The campaign's group.",
-        ),
-        th.Property(
-            "name",
-            th.StringType,
-            description="The campaign's name.",
-        ),
-        th.Property(
-            "description",
-            th.StringType,
-            description="The campaign's description.",
-        ),
-        th.Property(
-            "created",
-            th.DateTimeType,
-            description="The date and time the campaign was created.",
-        ),
-        th.Property(
-            "modified",
-            th.DateTimeType,
-            description="The date and time the campaign was last modified.",
-        ),
-        th.Property(
-            "created_by",
-            th.StringType,
-            description="The campaign's creator.",
-        ),
-        th.Property(
-            "references",
-            th.ObjectType(
-                # th.Property("group", th.StringType),  # noqa: ERA001
-            ),
-            description="Mapping of campaign references.",
-        ),
-    ).to_dict()
+    schema = StreamSchema(OPENAPI_SCHEMA, key="Campaign")
 
 
 class Channels(BitlyStream[Any]):
@@ -297,38 +151,7 @@ class Channels(BitlyStream[Any]):
     primary_keys = ("guid",)
     records_jsonpath = "$.channels[*]"
 
-    schema = th.PropertiesList(
-        th.Property(
-            "guid",
-            th.StringType,
-            description="The channel's unique identifier.",
-        ),
-        th.Property(
-            "name",
-            th.StringType,
-            description="The channel's name.",
-        ),
-        th.Property(
-            "created",
-            th.DateTimeType,
-            description="The date and time the channel was created.",
-        ),
-        th.Property(
-            "modified",
-            th.DateTimeType,
-            description="The date and time the channel was last modified.",
-        ),
-        th.Property(
-            "group_guid",
-            th.StringType,
-            description="The channel's group.",
-        ),
-        th.Property(
-            "references",
-            th.ObjectType(),
-            description="Mapping of channel references.",
-        ),
-    ).to_dict()
+    schema = StreamSchema(OPENAPI_SCHEMA, key="Channel")
 
 
 class Organizations(BitlyStream[Any]):
@@ -339,61 +162,7 @@ class Organizations(BitlyStream[Any]):
     primary_keys = ("guid",)
     records_jsonpath = "$.organizations[*]"
 
-    schema = th.PropertiesList(
-        th.Property(
-            "guid",
-            th.StringType,
-            description="The organization's unique identifier.",
-        ),
-        th.Property(
-            "references",
-            th.ObjectType(
-                th.Property(
-                    "groups",
-                    th.StringType,
-                    description="The organization's groups.",
-                ),
-            ),
-            description="Mapping of organization references.",
-        ),
-        th.Property("name", th.StringType, description="The organization's name."),
-        th.Property(
-            "is_active",
-            th.BooleanType,
-            description="Whether the organization is active.",
-        ),
-        th.Property("tier", th.StringType, description="The organization's tier."),
-        th.Property(
-            "tier_family",
-            th.StringType,
-            description="The organization's tier family.",
-        ),
-        th.Property(
-            "tier_display_name",
-            th.StringType,
-            description="The organization's tier display name.",
-        ),
-        th.Property(
-            "role",
-            th.StringType,
-            description="The organization's role.",
-        ),
-        th.Property(
-            "created",
-            th.DateTimeType,
-            description="The date and time the organization was created.",
-        ),
-        th.Property(
-            "modified",
-            th.DateTimeType,
-            description="The date and time the organization was last modified.",
-        ),
-        th.Property(
-            "bsds",
-            th.ArrayType(th.StringType()),
-            description="The organization's branded short domains.",
-        ),
-    ).to_dict()
+    schema = StreamSchema(OPENAPI_SCHEMA, key="Organization")
 
     @override
     def get_child_context(
@@ -413,93 +182,7 @@ class Webhooks(BitlyStream[Any]):
     records_jsonpath = "$.webhooks[*]"
     parent_stream_type = Organizations
 
-    schema = th.PropertiesList(
-        th.Property(
-            "guid",
-            th.StringType,
-            description="The webhook's unique identifier.",
-        ),
-        th.Property(
-            "name",
-            th.StringType,
-            description="The webhook's name.",
-        ),
-        th.Property(
-            "references",
-            th.ObjectType(),
-            description="Mapping of webhook references.",
-        ),
-        th.Property(
-            "created",
-            th.DateTimeType,
-            description="The date and time the webhook was created.",
-        ),
-        th.Property(
-            "modified",
-            th.DateTimeType,
-            description="The date and time the webhook was last modified.",
-        ),
-        th.Property(
-            "modified_by",
-            th.StringType,
-            description="The webhook's modifier.",
-        ),
-        th.Property(
-            "deactivated",
-            th.DateTimeType,
-            description="The date and time the webhook was deactivated.",
-        ),
-        th.Property(
-            "is_active",
-            th.BooleanType,
-            description="Whether the webhook is active.",
-        ),
-        th.Property(
-            "organization_guid",
-            th.StringType,
-            description="The webhook's organization.",
-        ),
-        th.Property(
-            "group_guid",
-            th.StringType,
-            description="The webhook's group.",
-        ),
-        th.Property(
-            "event",
-            th.StringType,
-            description="The webhook's event.",
-        ),
-        th.Property(
-            "url",
-            th.StringType,
-            description="The webhook's URL.",
-        ),
-        th.Property(
-            "status",
-            th.StringType,
-            description="The webhook's status.",
-        ),
-        th.Property(
-            "oauth_url",
-            th.StringType,
-            description="The webhook's OAuth URL.",
-        ),
-        th.Property(
-            "client_id",
-            th.StringType,
-            description="The webhook's client ID.",
-        ),
-        th.Property(
-            "client_secret",
-            th.StringType,
-            description="The webhook's client secret.",
-        ),
-        th.Property(
-            "fetch_tags",
-            th.BooleanType,
-            description="Whether to fetch tags.",
-        ),
-    ).to_dict()
+    schema = StreamSchema(OPENAPI_SCHEMA, key="Webhook")
 
 
 class DailyBitlinkClicks(BitlyStream[Any]):

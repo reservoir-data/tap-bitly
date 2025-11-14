@@ -6,6 +6,15 @@
     {
       "breadcrumb": [
         "properties",
+        "references"
+      ],
+      "metadata": {
+        "inclusion": "available"
+      }
+    },
+    {
+      "breadcrumb": [
+        "properties",
         "guid"
       ],
       "metadata": {
@@ -16,6 +25,15 @@
       "breadcrumb": [
         "properties",
         "group_guid"
+      ],
+      "metadata": {
+        "inclusion": "available"
+      }
+    },
+    {
+      "breadcrumb": [
+        "properties",
+        "created_by"
       ],
       "metadata": {
         "inclusion": "available"
@@ -58,24 +76,6 @@
       }
     },
     {
-      "breadcrumb": [
-        "properties",
-        "created_by"
-      ],
-      "metadata": {
-        "inclusion": "available"
-      }
-    },
-    {
-      "breadcrumb": [
-        "properties",
-        "references"
-      ],
-      "metadata": {
-        "inclusion": "available"
-      }
-    },
-    {
       "breadcrumb": [],
       "metadata": {
         "inclusion": "available",
@@ -89,72 +89,65 @@
   ],
   "replication_method": "FULL_TABLE",
   "schema": {
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "properties": {
       "created": {
-        "description": "The date and time the campaign was created.",
-        "format": "date-time",
+        "description": "ISO timestamp",
         "type": [
           "string",
           "null"
         ]
       },
       "created_by": {
-        "description": "The campaign's creator.",
         "type": [
           "string",
           "null"
         ]
       },
       "description": {
-        "description": "The campaign's description.",
         "type": [
           "string",
           "null"
         ]
       },
       "group_guid": {
-        "description": "The campaign's group.",
         "type": [
           "string",
           "null"
         ]
       },
       "guid": {
-        "description": "The campaign's unique identifier.",
         "type": [
-          "string"
+          "string",
+          "null"
         ]
       },
       "modified": {
-        "description": "The date and time the campaign was last modified.",
-        "format": "date-time",
+        "description": "ISO timestamp",
         "type": [
           "string",
           "null"
         ]
       },
       "name": {
-        "description": "The campaign's name.",
         "type": [
           "string",
           "null"
         ]
       },
       "references": {
-        "additionalProperties": true,
-        "description": "Mapping of campaign references.",
-        "properties": {},
+        "additionalProperties": {
+          "type": "string"
+        },
         "type": [
           "object",
           "null"
         ]
       }
     },
-    "required": [
-      "guid"
-    ],
-    "type": "object"
+    "type": [
+      "object",
+      "null"
+    ]
   },
   "stream": "campaigns",
   "tap_stream_id": "campaigns"
