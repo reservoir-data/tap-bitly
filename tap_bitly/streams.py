@@ -70,7 +70,7 @@ class Groups(BitlyStream[Any]):
         ),
         th.Property(
             "bsds",
-            th.ArrayType(th.StringType),
+            th.ArrayType(th.StringType()),
             description="The group's branded short domains.",
         ),
         th.Property(
@@ -132,7 +132,7 @@ class Bitlinks(BitlyStream[ParseResult]):
         th.Property("link", th.StringType, description="The bitlink's URL."),
         th.Property(
             "custom_bitlinks",
-            th.ArrayType(th.StringType),
+            th.ArrayType(th.StringType()),
             description="The bitlink's custom bitlinks.",
         ),
         th.Property("long_url", th.StringType, description="The bitlink's URL."),
@@ -146,12 +146,12 @@ class Bitlinks(BitlyStream[ParseResult]):
         th.Property("client_id", th.StringType, description="The bitlink's client ID."),
         th.Property(
             "tags",
-            th.ArrayType(th.StringType),
+            th.ArrayType(th.StringType()),
             description="The bitlink's tags.",
         ),
         th.Property(
             "deeplinks",
-            th.ArrayType(th.StringType),
+            th.ArrayType(th.StringType()),
             description="The bitlink's deeplinks.",
         ),
         th.Property(
@@ -377,7 +377,7 @@ class Organizations(BitlyStream[Any]):
         ),
         th.Property(
             "bsds",
-            th.ArrayType(th.StringType),
+            th.ArrayType(th.StringType()),
             description="The organization's branded short domains.",
         ),
     ).to_dict()
