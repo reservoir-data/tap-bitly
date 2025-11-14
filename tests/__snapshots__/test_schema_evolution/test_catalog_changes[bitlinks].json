@@ -6,16 +6,7 @@
     {
       "breadcrumb": [
         "properties",
-        "id"
-      ],
-      "metadata": {
-        "inclusion": "automatic"
-      }
-    },
-    {
-      "breadcrumb": [
-        "properties",
-        "created_at"
+        "references"
       ],
       "metadata": {
         "inclusion": "available"
@@ -33,10 +24,10 @@
     {
       "breadcrumb": [
         "properties",
-        "custom_bitlinks"
+        "id"
       ],
       "metadata": {
-        "inclusion": "available"
+        "inclusion": "automatic"
       }
     },
     {
@@ -69,6 +60,15 @@
     {
       "breadcrumb": [
         "properties",
+        "created_at"
+      ],
+      "metadata": {
+        "inclusion": "available"
+      }
+    },
+    {
+      "breadcrumb": [
+        "properties",
         "created_by"
       ],
       "metadata": {
@@ -87,7 +87,34 @@
     {
       "breadcrumb": [
         "properties",
+        "custom_bitlinks"
+      ],
+      "metadata": {
+        "inclusion": "available"
+      }
+    },
+    {
+      "breadcrumb": [
+        "properties",
         "tags"
+      ],
+      "metadata": {
+        "inclusion": "available"
+      }
+    },
+    {
+      "breadcrumb": [
+        "properties",
+        "launchpad_ids"
+      ],
+      "metadata": {
+        "inclusion": "available"
+      }
+    },
+    {
+      "breadcrumb": [
+        "properties",
+        "qr_code_ids"
       ],
       "metadata": {
         "inclusion": "available"
@@ -105,7 +132,7 @@
     {
       "breadcrumb": [
         "properties",
-        "references"
+        "is_deleted"
       ],
       "metadata": {
         "inclusion": "available"
@@ -114,18 +141,7 @@
     {
       "breadcrumb": [
         "properties",
-        "references",
-        "properties",
-        "group"
-      ],
-      "metadata": {
-        "inclusion": "available"
-      }
-    },
-    {
-      "breadcrumb": [
-        "properties",
-        "group_guid"
+        "campaign_ids"
       ],
       "metadata": {
         "inclusion": "available"
@@ -145,123 +161,111 @@
   ],
   "replication_method": "FULL_TABLE",
   "schema": {
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "properties": {
       "archived": {
-        "description": "Whether the bitlink is archived.",
-        "type": [
-          "boolean",
-          "null"
-        ]
+        "type": "boolean"
+      },
+      "campaign_ids": {
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
       },
       "client_id": {
-        "description": "The bitlink's client ID.",
-        "type": [
-          "string",
-          "null"
-        ]
+        "type": "string"
       },
       "created_at": {
-        "description": "The date and time the bitlink was created.",
-        "format": "date-time",
-        "type": [
-          "string",
-          "null"
-        ]
+        "type": "string"
       },
       "created_by": {
-        "description": "The bitlink's creator.",
-        "type": [
-          "string",
-          "null"
-        ]
+        "type": "string"
       },
       "custom_bitlinks": {
-        "description": "The bitlink's custom bitlinks.",
+        "description": "list of previously edited backhalfs for the bitlink - these are in reverse chronological order, with the most recently edited backhalf first",
         "items": {
-          "type": [
-            "string"
-          ]
+          "type": "string"
         },
-        "type": [
-          "array",
-          "null"
-        ]
+        "type": "array"
       },
       "deeplinks": {
-        "description": "The bitlink's deeplinks.",
         "items": {
-          "type": [
-            "string"
-          ]
+          "properties": {
+            "app_guid": {
+              "type": "string"
+            },
+            "app_uri_path": {
+              "type": "string"
+            },
+            "bitlink": {
+              "type": "string"
+            },
+            "brand_guid": {
+              "type": "string"
+            },
+            "created": {
+              "description": "ISO timestamp",
+              "type": "string"
+            },
+            "guid": {
+              "type": "string"
+            },
+            "install_type": {
+              "type": "string"
+            },
+            "install_url": {
+              "type": "string"
+            },
+            "modified": {
+              "description": "ISO timestamp",
+              "type": "string"
+            },
+            "os": {
+              "type": "string"
+            }
+          },
+          "type": "object"
         },
-        "type": [
-          "array",
-          "null"
-        ]
-      },
-      "group_guid": {
-        "description": "The bitlink's group.",
-        "type": [
-          "string",
-          "null"
-        ]
+        "type": "array"
       },
       "id": {
-        "description": "The bitlink's unique identifier.",
-        "type": [
-          "string",
-          "null"
-        ]
+        "type": "string"
+      },
+      "is_deleted": {
+        "type": "boolean"
+      },
+      "launchpad_ids": {
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
       },
       "link": {
-        "description": "The bitlink's URL.",
-        "type": [
-          "string",
-          "null"
-        ]
+        "type": "string"
       },
       "long_url": {
-        "description": "The bitlink's URL.",
-        "type": [
-          "string",
-          "null"
-        ]
+        "type": "string"
+      },
+      "qr_code_ids": {
+        "description": "a list of qr code ids that are associated with this bitlink",
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
       },
       "references": {
-        "additionalProperties": true,
-        "description": "Mapping of bitlink references.",
-        "properties": {
-          "group": {
-            "type": [
-              "string",
-              "null"
-            ]
-          }
+        "additionalProperties": {
+          "type": "string"
         },
-        "type": [
-          "object",
-          "null"
-        ]
+        "type": "object"
       },
       "tags": {
-        "description": "The bitlink's tags.",
         "items": {
-          "type": [
-            "string"
-          ]
+          "type": "string"
         },
-        "type": [
-          "array",
-          "null"
-        ]
+        "type": "array"
       },
       "title": {
-        "description": "The bitlink's title.",
-        "type": [
-          "string",
-          "null"
-        ]
+        "type": "string"
       }
     },
     "type": "object"
