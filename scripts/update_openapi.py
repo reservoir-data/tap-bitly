@@ -1,10 +1,4 @@
 #!/usr/bin/env python
-# /// script
-# dependencies = [
-#   # renovate: datasource=pypi depName=requests
-#   "requests==2.32.5",
-# ]
-# ///
 
 """Update the OpenAPI schema from the Bitly API.
 
@@ -15,22 +9,18 @@ from __future__ import annotations
 
 import json
 import pathlib
-
-import requests
-
-OPENAPI_URL = "https://dev.bitly.com/v4/v4.json"
-PATH = "tap_bitly/openapi/openapi.json"
+import urllib.request
 
 
 def main() -> None:
     """Update the OpenAPI schema from the Bitly API."""
-    with pathlib.Path(PATH).open("w", encoding="utf-8") as file:
-        response = requests.get(OPENAPI_URL, timeout=5)
-        response.raise_for_status()
-        spec = response.json()
-
+    with (
+        pathlib.Path("tap_bitly/openapi/openapi.json").open("w") as f_out,
+        urllib.request.urlopen("https://dev.bitly.com/v4/v4.json") as f_req,
+    ):
+        spec = json.load(f_req)
         content = json.dumps(spec, indent=2) + "\n"
-        file.write(content)
+        f_out.write(content)
 
 
 if __name__ == "__main__":
