@@ -50,10 +50,11 @@ dev = [
 ]
 testing = [
   "deptry>=0.23",
-  "pytest>=8",
+  "pytest>=9",
   "pytest-durations>=1.6",
   "pytest-github-actions-annotate-failures>=0.3",
   "singer-sdk[testing]",
+  "syrupy>=5",
 ]
 typing = [
   "mypy>=1.18",
@@ -116,8 +117,8 @@ DEP002 = [
 [tool.pyproject-fmt]
 max_supported_python = "3.14"
 
-[tool.pytest.ini_options]
-addopts = "-vvv"
+[tool.pytest]
+addopts = [ "-vvv" ]
 filterwarnings = [
   "error",
   "default:No records were available to test:UserWarning",
