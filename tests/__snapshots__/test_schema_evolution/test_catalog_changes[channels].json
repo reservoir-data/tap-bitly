@@ -6,19 +6,19 @@
     {
       "breadcrumb": [
         "properties",
-        "guid"
+        "name"
       ],
       "metadata": {
-        "inclusion": "automatic"
+        "inclusion": "available"
       }
     },
     {
       "breadcrumb": [
         "properties",
-        "name"
+        "guid"
       ],
       "metadata": {
-        "inclusion": "available"
+        "inclusion": "automatic"
       }
     },
     {
@@ -71,53 +71,29 @@
   ],
   "replication_method": "FULL_TABLE",
   "schema": {
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "properties": {
       "created": {
-        "description": "The date and time the channel was created.",
-        "format": "date-time",
-        "type": [
-          "string",
-          "null"
-        ]
+        "description": "ISO TIMESTAMP",
+        "type": "string"
       },
       "group_guid": {
-        "description": "The channel's group.",
-        "type": [
-          "string",
-          "null"
-        ]
+        "type": "string"
       },
       "guid": {
-        "description": "The channel's unique identifier.",
-        "type": [
-          "string",
-          "null"
-        ]
+        "type": "string"
       },
       "modified": {
-        "description": "The date and time the channel was last modified.",
-        "format": "date-time",
-        "type": [
-          "string",
-          "null"
-        ]
+        "description": "ISO_TIMESTAMP",
+        "type": "string"
       },
       "name": {
-        "description": "The channel's name.",
-        "type": [
-          "string",
-          "null"
-        ]
+        "type": "string"
       },
       "references": {
-        "additionalProperties": true,
-        "description": "Mapping of channel references.",
-        "properties": {},
-        "type": [
-          "object",
-          "null"
-        ]
+        "additionalProperties": {
+          "type": "string"
+        },
+        "type": "object"
       }
     },
     "type": "object"
