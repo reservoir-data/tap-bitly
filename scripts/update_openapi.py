@@ -25,7 +25,7 @@ def main() -> None:
     """Update the OpenAPI schema from the Bitly API."""
     logger.info("Updating OpenAPI schema from %s", OPENAPI_URL)
     with (
-        pathlib.Path(PATH).open("w") as f_out,
+        pathlib.Path(PATH).open("w", encoding="utf-8") as f_out,
         urllib.request.urlopen(OPENAPI_URL) as f_req,
     ):
         if f_req.status != http.HTTPStatus.OK:
