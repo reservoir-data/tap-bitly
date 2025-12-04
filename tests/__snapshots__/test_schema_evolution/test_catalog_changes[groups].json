@@ -6,10 +6,10 @@
     {
       "breadcrumb": [
         "properties",
-        "guid"
+        "references"
       ],
       "metadata": {
-        "inclusion": "automatic"
+        "inclusion": "available"
       }
     },
     {
@@ -24,21 +24,10 @@
     {
       "breadcrumb": [
         "properties",
-        "references"
+        "guid"
       ],
       "metadata": {
-        "inclusion": "available"
-      }
-    },
-    {
-      "breadcrumb": [
-        "properties",
-        "references",
-        "properties",
-        "organization"
-      ],
-      "metadata": {
-        "inclusion": "available"
+        "inclusion": "automatic"
       }
     },
     {
@@ -54,24 +43,6 @@
       "breadcrumb": [
         "properties",
         "modified"
-      ],
-      "metadata": {
-        "inclusion": "available"
-      }
-    },
-    {
-      "breadcrumb": [
-        "properties",
-        "bsds"
-      ],
-      "metadata": {
-        "inclusion": "available"
-      }
-    },
-    {
-      "breadcrumb": [
-        "properties",
-        "organization_guid"
       ],
       "metadata": {
         "inclusion": "available"
@@ -96,6 +67,24 @@
       }
     },
     {
+      "breadcrumb": [
+        "properties",
+        "organization_guid"
+      ],
+      "metadata": {
+        "inclusion": "available"
+      }
+    },
+    {
+      "breadcrumb": [
+        "properties",
+        "bsds"
+      ],
+      "metadata": {
+        "inclusion": "available"
+      }
+    },
+    {
       "breadcrumb": [],
       "metadata": {
         "inclusion": "available",
@@ -109,14 +98,10 @@
   ],
   "replication_method": "FULL_TABLE",
   "schema": {
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "properties": {
       "bsds": {
-        "description": "The group's branded short domains.",
         "items": {
-          "type": [
-            "string"
-          ]
+          "type": "string"
         },
         "type": [
           "array",
@@ -124,59 +109,44 @@
         ]
       },
       "created": {
-        "description": "The date and time the group was created.",
-        "format": "date-time",
         "type": [
           "string",
           "null"
         ]
       },
       "guid": {
-        "description": "The group's unique identifier.",
         "type": [
           "string",
           "null"
         ]
       },
       "is_active": {
-        "description": "Whether the group is active.",
         "type": [
           "boolean",
           "null"
         ]
       },
       "modified": {
-        "description": "The date and time the group was last modified.",
-        "format": "date-time",
         "type": [
           "string",
           "null"
         ]
       },
       "name": {
-        "description": "The group's name.",
         "type": [
           "string",
           "null"
         ]
       },
       "organization_guid": {
-        "description": "The group's organization's unique identifier.",
         "type": [
           "string",
           "null"
         ]
       },
       "references": {
-        "additionalProperties": true,
-        "description": "Mapping of group references.",
-        "properties": {
-          "organization": {
-            "type": [
-              "string",
-              "null"
-            ]
-          }
+        "additionalProperties": {
+          "type": "string"
         },
         "type": [
           "object",
@@ -184,14 +154,16 @@
         ]
       },
       "role": {
-        "description": "The group's role.",
         "type": [
           "string",
           "null"
         ]
       }
     },
-    "type": "object"
+    "type": [
+      "object",
+      "null"
+    ]
   },
   "stream": "groups",
   "tap_stream_id": "groups"
