@@ -26,8 +26,8 @@ jobs:
     - uses: actions/create-github-app-token@7e473efe3cb98aa54f8d4bac15400b15fad77d94 # v2.2.0
       id: generate-token
       with:
-        app-id: ${{ vars.APP_ID }}
-        private-key: ${{ secrets.APP_PRIVATE_KEY }}
+        app-id: ${{ vars.RESERVOIR_GITHUB_APP_ID }}
+        private-key: ${{ secrets.RESERVOIR_GITHUB_APP_PKEY }}
     - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
     - uses: astral-sh/setup-uv@1e862dfacbd1d6d858c55d9b792c756523627244 # v7.1.4
       with:
