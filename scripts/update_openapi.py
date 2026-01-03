@@ -24,16 +24,13 @@ logger = logging.getLogger()
 def main() -> None:
     """Update the OpenAPI schema from the Bitly API."""
     logger.info("Updating OpenAPI schema from %s", OPENAPI_URL)
-    with (
-        pathlib.Path(PATH).open("w", encoding="utf-8") as f_out,
-        urllib.request.urlopen(OPENAPI_URL) as f_req,
-    ):
+    with urllib.request.urlopen(OPENAPI_URL) as f_req:
         if f_req.status != http.HTTPStatus.OK:
             logger.error("Failed to fetch OpenAPI spec: %s", f_req.reason)
             sys.exit()
         spec = json.load(f_req)
         content = json.dumps(spec, indent=2) + "\n"
-        f_out.write(content)
+        pathlib.Path(PATH).write_text(content, encoding="utf-8")
 
 
 if __name__ == "__main__":
