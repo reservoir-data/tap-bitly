@@ -33,28 +33,38 @@ env:
   # renovate: datasource=pypi depName=uv
   UV_VERSION: 0.9.28
   # renovate: datasource=pypi depName=tox
-  TOX_VERSION: 4.34.1
+  TOX_VERSION: 4.43.0
   # renovate: datasource=pypi depName=tox-uv
   TOX_UV_VERSION: 1.29.0
 
 jobs:
+  build-package:
+    name: Build & verify package
+    runs-on: ubuntu-latest
+    outputs:
+      supported-python-versions: ${{ steps.baipp.outputs.supported_python_classifiers_json_array }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: hynek/build-and-inspect-python-package@efb823f52190ad02594531168b7a2d5790e66516 # v2.14.0
+        id: baipp
+
   test:
+    name: Integration
     runs-on: ubuntu-24.04
+    needs: build-package
     strategy:
       fail-fast: false
       max-parallel: 1
       matrix:
-        python-version:
-        - "3.12"
-        - "3.13"
-        - "3.14"
-        - "3.15"
+        python-version: ${{ fromJson(needs.build-package.outputs.supported-python-versions) }}
 
     steps:
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       with:
         fetch-depth: 0
-
     - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
       id: setup-python
       with:
@@ -74,6 +84,7 @@ jobs:
         tox -e ${{ matrix.python-version }} -- --junit-xml=junit.xml
 
   lint:
+    name: Static analysis
     runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2

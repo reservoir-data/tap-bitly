@@ -115,11 +115,8 @@ DEP002 = [
   "pytest-github-actions-annotate-failures",
 ]
 
-[tool.pyproject-fmt]
-max_supported_python = "3.14"
-
 [tool.pytest]
-addopts = [ "-vvv" ]
+addopts = [ "-vvv", "-ra", "--strict-config", "--strict-markers" ]
 filterwarnings = [
   "error",
   "default:No records were available to test:UserWarning",
@@ -129,16 +126,20 @@ filterwarnings = [
   "default:Fields in transformed catalog but not in records:UserWarning",
   "default:'asyncio.iscoroutinefunction' is deprecated:DeprecationWarning",
 ]
+log_level = "INFO"
+minversion = "9"
+testpaths = [ "tests" ]
+xfail_strict = true
 
 [tool.tox]
-min_version = "4.22"
+min_version = "4.43"
 requires = [ "tox", "tox-uv" ]
 env_list = [
   "dependencies",
   "typing",
-  "3.14",
-  "3.13",
-  "3.12",
+  { product = [
+    { prefix = "3.", start = 12 },
+  ] },
 ]
 
 [tool.tox.env.dependencies]
@@ -149,7 +150,7 @@ commands = [ [ "deptry", "." ] ]
 dependency_groups = [ "testing", "typing" ]
 commands = [
   [ "ty", "check" ],
-  [ "mypy", "--strict", "tap_bitly", "tests" ],
+  [ "mypy", "tap_bitly", "tests" ],
 ]
 
 [tool.tox.env_run_base]
@@ -160,6 +161,8 @@ dependency_groups = [ "testing" ]
 commands = [ [ "pytest", { replace = "posargs", default = [ "tests" ], extend = true } ] ]
 
 [tool.mypy]
+enable_error_code = [ "ignore-without-code", "redundant-expr", "truthy-bool" ]
+strict = true
 warn_redundant_casts = true
 warn_return_any = true
 warn_no_return = true
