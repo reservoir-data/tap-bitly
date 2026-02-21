@@ -16,12 +16,6 @@ keywords = [
 ]
 license = "Apache-2.0"
 license-files = [ "LICENSE" ]
-maintainers = [
-  { name = "Edgar Ramirez-Mondragon", email = "edgarrm358@gmail.com" },
-]
-authors = [
-  { name = "Edgar Ramirez-Mondragon", email = "edgarrm358@gmail.com" },
-]
 requires-python = ">=3.12"
 classifiers = [
   "Programming Language :: Python :: 3 :: Only",
@@ -35,10 +29,18 @@ dynamic = [
 dependencies = [
   "singer-sdk~=0.53.2",
 ]
-urls.Documentation = "https://github.com/reservoir-data/tap-bitly#readme"
-urls.Homepage = "https://github.com/reservoir-data/tap-bitly"
-urls.Repository = "https://github.com/reservoir-data/tap-bitly"
-scripts.tap-bitly = "tap_bitly.tap:TapBitly.cli"
+[[project.authors]]
+name = "Edgar Ramirez-Mondragon"
+email = "edgarrm358@gmail.com"
+[[project.maintainers]]
+name = "Edgar Ramirez-Mondragon"
+email = "edgarrm358@gmail.com"
+[project.scripts]
+tap-bitly = "tap_bitly.tap:TapBitly.cli"
+[project.urls]
+Documentation = "https://github.com/reservoir-data/tap-bitly#readme"
+Homepage = "https://github.com/reservoir-data/tap-bitly"
+Repository = "https://github.com/reservoir-data/tap-bitly"
 
 [dependency-groups]
 dev = [
@@ -59,53 +61,53 @@ typing = [
   "types-requests>=2.32",
 ]
 
+[tool.hatch]
 [tool.hatch.version]
 source = "vcs"
 
 [tool.uv]
-prerelease = "allow"
 required-version = ">=0.8"
-
+prerelease = "allow"
 [tool.uv.sources]
 singer-sdk = { git = "https://github.com/meltano/sdk.git", rev = "main" }
 
 [tool.ruff]
 line-length = 88
 preview = true
-
-lint.select = [
+[tool.ruff.lint]
+select = [
   "ALL",
 ]
-lint.ignore = [
+ignore = [
   "COM812", # missing-trailing-comma
   "DJ",     # flake8-django
   "FIX002", # line-contains-todo
   "ISC001", # single-line-implicit-string-concatenation
 ]
-lint.per-file-ignores."noxfile.py" = [
+per-file-ignores."noxfile.py" = [
   "ANN",
 ]
-lint.per-file-ignores."tests/*" = [
+per-file-ignores."tests/*" = [
   "ANN201", # missing-return-type-public-function
   "S101",   # assert
   "SLF001", # private-member-access
 ]
-lint.unfixable = [
+unfixable = [
   "ERA001", # commented-out-code
 ]
-lint.isort.known-first-party = [
+isort.known-first-party = [
   "tap_bitly",
 ]
-lint.isort.required-imports = [
+isort.required-imports = [
   "from __future__ import annotations",
 ]
-lint.pydocstyle.convention = "google"
+pydocstyle.convention = "google"
 
+[tool.deptry]
 [tool.deptry.package_module_name_map]
 mypy = "mypy"
 ty = "ty"
 types-requests = "requests"
-
 [tool.deptry.per_rule_ignores]
 DEP002 = [
   "deptry",
@@ -114,6 +116,9 @@ DEP002 = [
   "pytest-durations",
   "pytest-github-actions-annotate-failures",
 ]
+
+[tool.pyproject-fmt]
+table_format = "long"
 
 [tool.pytest]
 addopts = [ "-vvv", "-ra", "--strict-config", "--strict-markers" ]
@@ -141,14 +146,11 @@ env_list = [
     { prefix = "3.", start = 12 },
   ] },
 ]
-
-[tool.tox.env.dependencies]
-dependency_groups = [ "testing" ]
-commands = [ [ "deptry", "." ] ]
-
-[tool.tox.env.typing]
-dependency_groups = [ "testing", "typing" ]
-commands = [
+[tool.tox.env]
+dependencies.dependency_groups = [ "testing" ]
+dependencies.commands = [ [ "deptry", "." ] ]
+typing.dependency_groups = [ "testing", "typing" ]
+typing.commands = [
   [ "ty", "check" ],
   [ "mypy", "tap_bitly", "tests" ],
 ]
