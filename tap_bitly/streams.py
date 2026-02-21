@@ -16,7 +16,7 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, override
-from urllib.parse import ParseResult, parse_qs
+from urllib.parse import ParseResult
 
 from singer_sdk import typing as th
 from singer_sdk.pagination import BaseHATEOASPaginator
@@ -27,7 +27,8 @@ if TYPE_CHECKING:
     from collections.abc import Iterable
 
     import requests
-    from singer_sdk.helpers.types import Context
+    from singer_sdk.helpers.types import Context, Record
+    from singer_sdk.streams.rest import HTTPRequest, HTTPRequestContext
 
 
 class BitlinksPaginator(BaseHATEOASPaginator):
@@ -174,35 +175,23 @@ class Bitlinks(BitlyStream[ParseResult]):
         return BitlinksPaginator()
 
     @override
-    def get_url_params(
+    def get_http_request(
         self,
-        context: Context | None,
-        next_page_token: ParseResult | None,
-    ) -> dict[str, Any]:
-        """Get URL parameters.
-
-        Args:
-            context: The stream sync context.
-            next_page_token: The next page token.
-
-        Returns:
-            The URL parameters.
-        """
-        params = {
-            "archived": "both",
-            "size": self._page_size,
-        }
-        if next_page_token:
-            params.update(parse_qs(next_page_token.query))
-
-        return params
+        *,
+        context: HTTPRequestContext[ParseResult],
+    ) -> HTTPRequest:
+        request = super().get_http_request(context=context)
+        if context.next_page:
+            request.url = context.next_page.geturl()
+        else:
+            request.params = {
+                "archived": "both",
+                "size": self._page_size,
+            }
+        return request
 
     @override
-    def get_child_context(
-        self,
-        record: dict[str, Any],
-        context: Context | None,
-    ) -> dict[str, Any]:
+    def get_child_context(self, record: Record, context: Context | None) -> Record:
         return {"bitlink": record["id"]}
 
 
@@ -518,9 +507,7 @@ class MonthlyBitlinkClicks(DailyBitlinkClicks):
     name = "montly_bitlink_clicks"
 
     @override
-    def get_url_params(
-        self,
-        context: Context | None,
-        next_page_token: Any | None,
-    ) -> dict[str, Any]:
-        return {"unit": "month"}
+    def get_http_request(self, *, context: HTTPRequestContext) -> HTTPRequest:
+        request = super().get_http_request(context=context)
+        request.params["unit"] = "month"
+        return request

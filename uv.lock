@@ -635,8 +635,8 @@ wheels = [
 
 [[package]]
 name = "singer-sdk"
-version = "0.53.6.dev64+g4f4e973c0"
-source = { git = "https://github.com/meltano/sdk.git?rev=main#4f4e973c0a747e1c13d018374ebf02fc197a8f7c" }
+version = "0.53.6.dev81+gb81ca98de"
+source = { git = "https://github.com/meltano/sdk.git?rev=feat%2Fget_http_request#b81ca98de80dcfe3b040cbdd6cd428d6cc610d4e" }
 dependencies = [
     { name = "click" },
     { name = "fsspec" },
@@ -745,7 +745,7 @@ typing = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "singer-sdk", git = "https://github.com/meltano/sdk.git?rev=main" }]
+requires-dist = [{ name = "singer-sdk", git = "https://github.com/meltano/sdk.git?rev=feat%2Fget_http_request" }]
 
 [package.metadata.requires-dev]
 dev = [
@@ -754,7 +754,7 @@ dev = [
     { name = "pytest", specifier = ">=9" },
     { name = "pytest-durations", specifier = ">=1.6" },
     { name = "pytest-github-actions-annotate-failures", specifier = ">=0.3" },
-    { name = "singer-sdk", extras = ["testing"], git = "https://github.com/meltano/sdk.git?rev=main" },
+    { name = "singer-sdk", extras = ["testing"], git = "https://github.com/meltano/sdk.git?rev=feat%2Fget_http_request" },
     { name = "syrupy", specifier = ">=5" },
     { name = "ty", specifier = ">=0.0.1a21" },
     { name = "types-requests", specifier = ">=2.32" },
@@ -764,7 +764,7 @@ testing = [
     { name = "pytest", specifier = ">=9" },
     { name = "pytest-durations", specifier = ">=1.6" },
     { name = "pytest-github-actions-annotate-failures", specifier = ">=0.3" },
-    { name = "singer-sdk", extras = ["testing"], git = "https://github.com/meltano/sdk.git?rev=main" },
+    { name = "singer-sdk", extras = ["testing"], git = "https://github.com/meltano/sdk.git?rev=feat%2Fget_http_request" },
     { name = "syrupy", specifier = ">=5" },
 ]
 typing = [
