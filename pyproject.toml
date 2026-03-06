@@ -68,6 +68,8 @@ source = "vcs"
 [tool.uv]
 required-version = ">=0.8"
 prerelease = "allow"
+[tool.uv.sources]
+singer-sdk = { git = "https://github.com/meltano/sdk.git", rev = "feat/get_http_request" }
 
 [tool.ruff]
 line-length = 88
