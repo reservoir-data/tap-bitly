@@ -28,6 +28,7 @@ if TYPE_CHECKING:
 
     import requests
     from singer_sdk.helpers.types import Context
+    from singer_sdk.pagination import BaseAPIPaginator
 
 
 class BitlinksPaginator(BaseHATEOASPaginator):
@@ -170,7 +171,7 @@ class Bitlinks(BitlyStream[ParseResult]):
     ).to_dict()
 
     @override
-    def get_new_paginator(self) -> BitlinksPaginator:
+    def get_new_paginator(self) -> BaseAPIPaginator:
         return BitlinksPaginator()
 
     @override

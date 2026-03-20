@@ -53,7 +53,7 @@ class TapBitly(Tap):
 
     @override
     def discover_streams(self) -> list[BitlyStream[Any]]:
-        bitly_streams = [
+        bitly_streams: list[BitlyStream[Any]] = [
             streams.Groups(self),
             streams.Bitlinks(self),
             streams.BrandedShortDomains(self),
