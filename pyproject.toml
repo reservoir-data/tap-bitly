@@ -27,7 +27,7 @@ dynamic = [
   "version",
 ]
 dependencies = [
-  "singer-sdk~=0.53.2",
+  "singer-sdk~=0.54.0a8",
 ]
 [[project.authors]]
 name = "Edgar Ramirez-Mondragon"
