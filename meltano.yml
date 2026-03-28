@@ -1,6 +1,10 @@
-version: 1
+requires_meltano: ">=4"
 send_anonymous_usage_stats: false
 project_id: tap-bitly
+default_environment: dev
+environments:
+- name: dev
+- name: prod
 plugins:
   extractors:
   - name: tap-bitly

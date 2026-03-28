@@ -188,14 +188,13 @@ class Bitlinks(BitlyStream[ParseResult]):
         Returns:
             The URL parameters.
         """
-        params = {
+        if next_page_token:
+            return parse_qs(next_page_token.query)
+
+        return {
             "archived": "both",
             "size": self._page_size,
         }
-        if next_page_token:
-            params.update(parse_qs(next_page_token.query))
-
-        return params
 
     @override
     def get_child_context(
