@@ -21,19 +21,18 @@ on:
   - cron: "0 10 * * *"
   workflow_dispatch:
 
-permissions:
-  contents: read
-
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
+
+permissions: {}
 
 env:
   FORCE_COLOR: "1"
   # renovate: datasource=pypi depName=uv
   UV_VERSION: 0.10.2
   # renovate: datasource=pypi depName=tox
-  TOX_VERSION: 4.43.0
+  TOX_VERSION: 4.51.0
   # renovate: datasource=pypi depName=tox-uv
   TOX_UV_VERSION: 1.29.0
 
@@ -65,36 +64,37 @@ jobs:
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       with:
         fetch-depth: 0
-    - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
-      id: setup-python
-      with:
-        python-version: ${{ matrix.python-version }}
-        allow-prereleases: true
+        persist-credentials: false
     - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7.6.0
       with:
+        python-version: ${{ matrix.python-version }}
         version: ${{ env.UV_VERSION }}
     - name: Run
       env:
-        TAP_BITLY_TOKEN: ${{ secrets.TAP_BITLY_TOKEN }}
+        TAP_BITLY_TOKEN: ${{ secrets.TAP_BITLY_TOKEN }} # zizmor: ignore[secrets-outside-env]
+        MATRIX_PYTHON_VERSION: ${{ matrix.python-version }}
       run: >
         uvx
-        --with tox-uv==${{ env.TOX_UV_VERSION }}
-        --with tox==${{ env.TOX_VERSION }}
-        tox -e ${{ matrix.python-version }} -- --junit-xml=junit.xml
+        --with tox-uv==${TOX_UV_VERSION}
+        --with tox==${TOX_VERSION}
+        tox -e ${MATRIX_PYTHON_VERSION} -- --junit-xml=junit.xml
 
   lint:
     name: Static analysis
     runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-    - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
-      id: setup-python
+      with:
+        persist-credentials: false
     - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7.6.0
       with:
         version: ${{ env.UV_VERSION }}
-    - env:
-        UV_PYTHON: ${{ steps.setup-python.outputs.python-path }}
-      run: uv tool install --with tox-uv==${{ env.TOX_UV_VERSION }} --from tox==${{ env.TOX_VERSION }} tox
+    - run: >
+        uv tool install
+        --managed-python
+        --with tox-uv==${TOX_UV_VERSION}
+        --with tox==${TOX_VERSION}
+        tox
     - name: Static type checking
       run: tox -e typing
     - name: Unused, missing and transitive dependencies
