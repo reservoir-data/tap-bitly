@@ -73,6 +73,6 @@
     },
     "type": "object"
   },
-  "stream": "montly_bitlink_clicks",
-  "tap_stream_id": "montly_bitlink_clicks"
+  "stream": "monthly_bitlink_clicks",
+  "tap_stream_id": "monthly_bitlink_clicks"
 }
