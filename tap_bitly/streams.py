@@ -175,10 +175,10 @@ class Bitlinks(BitlyStream[ParseResult | None]):
         return BitlinksPaginator()
 
     @override
-    def get_http_request(self, *, context: PageContext[ParseResult]) -> HTTPRequest:
-        request = super().get_http_request(context=context)
-        if context.next_page_token:
-            request.url = context.next_page_token.geturl()
+    def get_http_request(self, *, page: PageContext[ParseResult]) -> HTTPRequest:
+        request = super().get_http_request(page=page)
+        if page.next_page_token:
+            request.url = page.next_page_token.geturl()
         else:
             request.params.update({
                 "archived": "both",
@@ -503,7 +503,7 @@ class MonthlyBitlinkClicks(DailyBitlinkClicks):
     name = "monthly_bitlink_clicks"
 
     @override
-    def get_http_request(self, *, context: PageContext[ParseResult]) -> HTTPRequest:
-        request = super().get_http_request(context=context)
+    def get_http_request(self, *, page: PageContext[ParseResult]) -> HTTPRequest:
+        request = super().get_http_request(page=page)
         request.params["unit"] = "month"
         return request
