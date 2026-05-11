@@ -660,7 +660,7 @@ wheels = [
 
 [[package]]
 name = "singer-sdk"
-version = "0.54.0a13"
+version = "0.54.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
@@ -682,9 +682,9 @@ dependencies = [
     { name = "universal-pathlib" },
     { name = "urllib3" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/34/94/dc1d3b0968aba8c56d418a64c8c4586baa2fa6602102154543dfa2514f84/singer_sdk-0.54.0a13.tar.gz", hash = "sha256:227318f1c7a1f2c8fbcf42e5d9f9bf24a55ca59fe95f1028c945a400584d0a64", size = 1380349, upload-time = "2026-04-23T03:34:17.839Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/2d/13/029bb137d1a2ba15cbc90953024a2260ab79a10c45dde909ca84b3529f97/singer_sdk-0.54.0.tar.gz", hash = "sha256:b9924c2cadb03ff64fd6e11f539c166d5d9e7ea93e8aa43d9e758ffcfaa2297b", size = 1380158, upload-time = "2026-05-11T23:12:18.531Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/e9/dc/2034c6d700fd861d7ee184617f7c51e288fe270e34314914a1eaac107678/singer_sdk-0.54.0a13-py3-none-any.whl", hash = "sha256:20a6861c6b2c47959138b4af1cee82d7d90ff01ade6d5506488d27df8a7a239e", size = 217298, upload-time = "2026-04-23T03:34:15.521Z" },
+    { url = "https://files.pythonhosted.org/packages/a7/c3/5ceadb5f411a99edccf930c5c98d347bc6091fcc070ce72d3cd934035788/singer_sdk-0.54.0-py3-none-any.whl", hash = "sha256:52d20d614686adee9bf68a57d7f22331e659200820ec1f247b591ac4d4f6c69a", size = 217389, upload-time = "2026-05-11T23:12:16.279Z" },
 ]
 
 [package.optional-dependencies]
@@ -796,7 +796,7 @@ typing = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "singer-sdk", specifier = "~=0.54.0a13" }]
+requires-dist = [{ name = "singer-sdk", specifier = "~=0.54.0" }]
 
 [package.metadata.requires-dev]
 dev = [
