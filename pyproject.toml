@@ -56,7 +56,6 @@ testing = [
 typing = [
   "mypy>=1.19",
   "ty>=0.0.23",
-  "types-requests>=2.32",
 ]
 
 [tool.hatch]
@@ -94,7 +93,6 @@ pydocstyle.convention = "google"
 [tool.deptry.package_module_name_map]
 mypy = "mypy"
 ty = "ty"
-types-requests = "requests"
 
 [tool.pyproject-fmt]
 table_format = "long"
