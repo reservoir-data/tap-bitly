@@ -29,38 +29,38 @@ Singer tap for [Bitly](https://bitly.com/). Built with the [Meltano Singer SDK](
 
 ## Capabilities
 
-* `catalog`
-* `state`
-* `discover`
-* `about`
-* `stream-maps`
-* `schema-flattening`
+- `catalog`
+- `state`
+- `discover`
+- `about`
+- `stream-maps`
+- `schema-flattening`
 
 ## Settings
 
-| Setting              | Required | Default | Description                                                                                                                                 |
+| Setting | Required | Default | Description |
 | :------------------- | :------: | :-----: | :------------------------------------------------------------------------------------------------------------------------------------------ |
-| token                |   True   |  None   | API Token for Bitly                                                                                                                         |
-| include_paid_streams |  False   |  False  | Whether to sync paid streams                                                                                                                |
-| start_date           |  False   |  None   | Earliest datetime to get data from                                                                                                          |
-| stream_maps          |  False   |  None   | Config object for stream maps capability. For more information check out [Stream Maps](https://sdk.meltano.com/en/latest/stream_maps.html). |
-| stream_map_config    |  False   |  None   | User-defined config values to be used within map expressions.                                                                               |
-| flattening_enabled   |  False   |  None   | 'True' to enable schema flattening and automatically expand nested properties.                                                              |
-| flattening_max_depth |  False   |  None   | The max depth to flatten schemas.                                                                                                           |
+| token | True | None | API Token for Bitly |
+| include_paid_streams | False | False | Whether to sync paid streams |
+| start_date | False | None | Earliest datetime to get data from |
+| stream_maps | False | None | Config object for stream maps capability. For more information check out [Stream Maps](https://sdk.meltano.com/en/latest/stream_maps.html). |
+| stream_map_config | False | None | User-defined config values to be used within map expressions. |
+| flattening_enabled | False | None | 'True' to enable schema flattening and automatically expand nested properties. |
+| flattening_max_depth | False | None | The max depth to flatten schemas. |
 
 ## Supported Streams
 
-| Stream Name              | Endpoint                                                                                           | Notes                 |
+| Stream Name | Endpoint | Notes |
 | :----------------------- | :------------------------------------------------------------------------------------------------- | :-------------------- |
-| `groups`                 | [/v4/groups](https://dev.bitly.com/api-reference/#getGroups)                                       |                       |
-| `bitlinks`               | [/v4/groups/{group_guid}/bitlinks](https://dev.bitly.com/api-reference/#getBitlinksByGroup)        |                       |
-| `bsds`                   | [/v4/bsds](https://dev.bitly.com/api-reference/#getBSDs)                                           |                       |
-| `campaigns`              | [/v4/campaigns](https://dev.bitly.com/api-reference/#getCampaigns)                                 |                       |
-| `channels`               | [/v4/channels](https://dev.bitly.com/api-reference/#getChannels)                                   |                       |
-| `organizations`          | [/v4/organizations](https://dev.bitly.com/api-reference/#getOrganizations)                         |                       |
-| `webhooks`               | [/v4/organizations/{organization_guid}/webhooks](https://dev.bitly.com/api-reference/#getWebhooks) | Requires paid account |
-| `daily_bitlink_clicks`   | [/v4/bitlinks/{bitlink}/clicks](https://dev.bitly.com/api-reference/#getClicksForBitlink)          |                       |
-| `monthly_bitlink_clicks` | [/v4/bitlinks/{bitlink}/clicks](https://dev.bitly.com/api-reference/#getClicksForBitlink)          |                       |
+| `groups` | [/v4/groups](https://dev.bitly.com/api-reference/#getGroups) | |
+| `bitlinks` | [/v4/groups/{group_guid}/bitlinks](https://dev.bitly.com/api-reference/#getBitlinksByGroup) | |
+| `bsds` | [/v4/bsds](https://dev.bitly.com/api-reference/#getBSDs) | |
+| `campaigns` | [/v4/campaigns](https://dev.bitly.com/api-reference/#getCampaigns) | |
+| `channels` | [/v4/channels](https://dev.bitly.com/api-reference/#getChannels) | |
+| `organizations` | [/v4/organizations](https://dev.bitly.com/api-reference/#getOrganizations) | |
+| `webhooks` | [/v4/organizations/{organization_guid}/webhooks](https://dev.bitly.com/api-reference/#getWebhooks) | Requires paid account |
+| `daily_bitlink_clicks` | [/v4/bitlinks/{bitlink}/clicks](https://dev.bitly.com/api-reference/#getClicksForBitlink) | |
+| `monthly_bitlink_clicks` | [/v4/bitlinks/{bitlink}/clicks](https://dev.bitly.com/api-reference/#getClicksForBitlink) | |
 
 A full list of supported settings and capabilities is available by running: `tap-bitly --about`
 
@@ -109,13 +109,13 @@ Your project comes with a custom `meltano.yml` project file already created. Go 
    meltano install
    ```
 
-2. Check that the extractor is working properly
+1. Check that the extractor is working properly
 
    ```bash
    meltano invoke tap-bitly --version
    ```
 
-3. Execute an EL pipeline
+1. Execute an EL pipeline
 
    ```bash
    meltano run tap-bitly target-jsonl
