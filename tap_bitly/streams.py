@@ -261,7 +261,7 @@ class Campaigns(BitlyStream[Any]):
         th.Property(
             "references",
             th.ObjectType(
-                # th.Property("group", th.StringType),  # noqa: ERA001
+                # th.Property("group", th.StringType),  # ruff: ignore[commented-out-code]
             ),
             description="Mapping of campaign references.",
         ),
