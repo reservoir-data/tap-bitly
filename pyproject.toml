@@ -149,7 +149,6 @@ commands = [
   [ "mypy", "tap_bitly", "tests" ],
 ]
 labels = [ "check" ]
-
 [tool.tox.env_run_base]
 runner = "uv-venv-lock-runner"
 dependency_groups = [ "testing" ]
