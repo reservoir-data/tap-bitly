@@ -24,7 +24,7 @@ from singer_sdk.authenticators import BearerTokenAuthenticator
 class BitlyStream[T](RESTStream[T]):
     """Bitly stream class."""
 
-    url_base = "https://api-ssl.bitly.com"
+    url_base = "https://api-ssl.bitly.com/v4"
     records_jsonpath = "$[*]"
     _page_size = 100
 

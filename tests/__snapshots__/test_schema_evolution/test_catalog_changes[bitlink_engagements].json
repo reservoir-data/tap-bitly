@@ -1,0 +1,144 @@
+{
+  "key_properties": [
+    "date",
+    "bitlink"
+  ],
+  "metadata": [
+    {
+      "breadcrumb": [
+        "properties",
+        "date"
+      ],
+      "metadata": {
+        "inclusion": "automatic"
+      }
+    },
+    {
+      "breadcrumb": [
+        "properties",
+        "bitlink"
+      ],
+      "metadata": {
+        "inclusion": "automatic"
+      }
+    },
+    {
+      "breadcrumb": [
+        "properties",
+        "engagement_count"
+      ],
+      "metadata": {
+        "inclusion": "available"
+      }
+    },
+    {
+      "breadcrumb": [
+        "properties",
+        "engagements"
+      ],
+      "metadata": {
+        "inclusion": "available"
+      }
+    },
+    {
+      "breadcrumb": [
+        "properties",
+        "engagements",
+        "properties",
+        "lib_button_clicks"
+      ],
+      "metadata": {
+        "inclusion": "available"
+      }
+    },
+    {
+      "breadcrumb": [
+        "properties",
+        "engagements",
+        "properties",
+        "clicks"
+      ],
+      "metadata": {
+        "inclusion": "available"
+      }
+    },
+    {
+      "breadcrumb": [
+        "properties",
+        "engagements",
+        "properties",
+        "scans"
+      ],
+      "metadata": {
+        "inclusion": "available"
+      }
+    },
+    {
+      "breadcrumb": [],
+      "metadata": {
+        "inclusion": "available",
+        "selected": true,
+        "selected-by-default": true,
+        "table-key-properties": [
+          "date",
+          "bitlink"
+        ]
+      }
+    }
+  ],
+  "replication_method": "FULL_TABLE",
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "properties": {
+      "bitlink": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "date": {
+        "format": "date-time",
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "engagement_count": {
+        "type": [
+          "integer",
+          "null"
+        ]
+      },
+      "engagements": {
+        "additionalProperties": true,
+        "properties": {
+          "clicks": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "lib_button_clicks": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "scans": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          }
+        },
+        "type": [
+          "object",
+          "null"
+        ]
+      }
+    },
+    "type": "object"
+  },
+  "stream": "bitlink_engagements",
+  "tap_stream_id": "bitlink_engagements"
+}
