@@ -62,6 +62,7 @@ class TapBitly(Tap):
             streams.Organizations(self),
             streams.DailyBitlinkClicks(self),
             streams.MonthlyBitlinkClicks(self),
+            streams.BitlinkEngagementes(self),
         ]
 
         if self.config.get("include_paid_streams"):

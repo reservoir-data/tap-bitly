@@ -43,7 +43,7 @@ class Groups(BitlyStream[Any]):
     """Users stream."""
 
     name = "groups"
-    path = "/v4/groups"
+    path = "/groups"
     primary_keys = ("guid",)
     records_jsonpath = "$.groups[*]"
     replication_key = None
@@ -120,7 +120,7 @@ class Bitlinks(BitlyStream[ParseResult | None]):
     """Bitlinks stream."""
 
     name = "bitlinks"
-    path = "/v4/groups/{group_guid}/bitlinks"
+    path = "/groups/{group_guid}/bitlinks"
     primary_keys = ("id",)
     records_jsonpath = "$.links[*]"
     replication_key = None
@@ -195,7 +195,7 @@ class BrandedShortDomains(BitlyStream[Any]):
     """Branded Short Domains stream."""
 
     name = "bsds"
-    path = "/v4/bsds"
+    path = "/bsds"
     primary_keys = ("domain",)
 
     schema = th.PropertiesList(
@@ -217,7 +217,7 @@ class Campaigns(BitlyStream[Any]):
     """Campaigns stream."""
 
     name = "campaigns"
-    path = "/v4/campaigns"
+    path = "/campaigns"
     primary_keys = ("guid",)
     records_jsonpath = "$.campaigns[*]"
 
@@ -272,7 +272,7 @@ class Channels(BitlyStream[Any]):
     """Channels stream."""
 
     name = "channels"
-    path = "/v4/channels"
+    path = "/channels"
     primary_keys = ("guid",)
     records_jsonpath = "$.channels[*]"
 
@@ -314,7 +314,7 @@ class Organizations(BitlyStream[Any]):
     """Organizations stream."""
 
     name = "organizations"
-    path = "/v4/organizations"
+    path = "/organizations"
     primary_keys = ("guid",)
     records_jsonpath = "$.organizations[*]"
 
@@ -387,7 +387,7 @@ class Webhooks(BitlyStream[Any]):
     """Webhooks stream."""
 
     name = "webhooks"
-    path = "/v4/organizations/{organization_guid}/webhooks"
+    path = "/organizations/{organization_guid}/webhooks"
     primary_keys = ("guid",)
     records_jsonpath = "$.webhooks[*]"
     parent_stream_type = Organizations
@@ -481,11 +481,35 @@ class Webhooks(BitlyStream[Any]):
     ).to_dict()
 
 
+class BitlinkEngagementes(BitlyStream[Any]):
+    """Bitlink engagement."""
+
+    name = "bitlink_engagements"
+    path = "/bitlinks/{bitlink}/engagements"
+    primary_keys = ("date", "bitlink")
+    records_jsonpath = "$.engagements[*]"
+    parent_stream_type = Bitlinks
+
+    schema = th.PropertiesList(
+        th.Property("date", th.DateTimeType),
+        th.Property("bitlink", th.StringType),
+        th.Property("engagement_count", th.IntegerType),
+        th.Property(
+            "engagements",
+            th.ObjectType(
+                th.Property("lib_button_clicks", th.IntegerType),
+                th.Property("clicks", th.IntegerType),
+                th.Property("scans", th.IntegerType),
+            ),
+        ),
+    ).to_dict()
+
+
 class DailyBitlinkClicks(BitlyStream[Any]):
     """Daily bitlink clicks."""
 
     name = "daily_bitlink_clicks"
-    path = "/v4/bitlinks/{bitlink}/clicks"
+    path = "/bitlinks/{bitlink}/clicks"
     primary_keys = ("date", "bitlink")
     records_jsonpath = "$.link_clicks[*]"
     parent_stream_type = Bitlinks

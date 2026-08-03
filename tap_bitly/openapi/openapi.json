@@ -265,6 +265,12 @@
                     "bitlink_id": "yourdomain.co/1234567890",
                     "keyword": "new-link-edited"
                   }
+                },
+                "With Expiration": {
+                  "value": {
+                    "long_url": "https://dev.bitly.com",
+                    "expiration_at": "2025-07-28T14:30:00+0000"
+                  }
                 }
               }
             }
@@ -493,6 +499,11 @@
                 "Redirect Bitlink Destination": {
                   "value": {
                     "long_url": "https://www.newdestination.com"
+                  }
+                },
+                "With Expiration": {
+                  "value": {
+                    "expiration_at": "2025-07-28T14:30:00+0000"
                   }
                 }
               }
@@ -941,6 +952,204 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/MonthlyLimitExceeded"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "TEMPORARILY_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TemporarilyUnavailable"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bitlinks/{bitlink}/engagements": {
+      "get": {
+        "summary": "Get Engagement Counts for a Bitlink",
+        "description": "Returns an array of engagement counts for the specified link. The array is comprised of button click, click and scan counts for each time window, where the window is based on the provided unit.",
+        "tags": [
+          "Bitlinks"
+        ],
+        "operationId": "getEngagements",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Bitlink"
+          },
+          {
+            "$ref": "#/components/parameters/TimeUnit"
+          },
+          {
+            "$ref": "#/components/parameters/UnitAmount"
+          },
+          {
+            "$ref": "#/components/parameters/UnitReferenceTimeStamp"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SUCCESS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TotalEngagements"
+                }
+              },
+              "text/csv": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Date, Engagements\n2006-01-02T15:04:05, 5\n"
+              }
+            }
+          },
+          "400": {
+            "description": "BAD_REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "GONE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Gone"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "TEMPORARILY_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TemporarilyUnavailable"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bitlinks/{bitlink}/engagements/summary": {
+      "get": {
+        "summary": "Get an Engagement Count Summary for a Bitlink",
+        "description": "Returns the engagement counts for the specified link rolled up into a single field.",
+        "tags": [
+          "Bitlinks"
+        ],
+        "operationId": "getEngagementsSummary",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Bitlink"
+          },
+          {
+            "$ref": "#/components/parameters/TimeUnit"
+          },
+          {
+            "$ref": "#/components/parameters/UnitAmount"
+          },
+          {
+            "$ref": "#/components/parameters/UnitReferenceTimeStamp"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SUCCESS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TotalEngagementsSummary"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD_REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "GONE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Gone"
                 }
               }
             }
@@ -2607,6 +2816,9 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/GroupGUID"
+          },
+          {
+            "$ref": "#/components/parameters/TagType"
           }
         ],
         "responses": {
@@ -2616,6 +2828,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Tags"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD_REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
                 }
               }
             }
@@ -2723,6 +2945,15 @@
           },
           {
             "$ref": "#/components/parameters/FilterHasQRCodes"
+          },
+          {
+            "$ref": "#/components/parameters/FilterIsExpired"
+          },
+          {
+            "$ref": "#/components/parameters/FilterHasExpiration"
+          },
+          {
+            "$ref": "#/components/parameters/FilterHasDynamicRouting"
           },
           {
             "$ref": "#/components/parameters/Tags"
@@ -2856,6 +3087,95 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/UnprocessableEntity"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "TEMPORARILY_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TemporarilyUnavailable"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/{group_guid}/engagements/sorted/top": {
+      "get": {
+        "summary": "Retrieve Top Links and Decoupled QR Codes by Engagements",
+        "description": "Returns the bitlinks and decoupled QR codes in a group with the most engagements over the requested time window, ranked together in descending order by engagement count. Bitlinks and decoupled QR codes are returned in separate lists; `sorted_links` preserves the unified descending-by-count ordering across both, with each entry's id referencing either a bitlink or a QR code guid.\n",
+        "operationId": "getTopLinksAndQRCodesByEngagements",
+        "tags": [
+          "Bitlinks"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/GroupGUID"
+          },
+          {
+            "$ref": "#/components/parameters/TimeUnitOptional"
+          },
+          {
+            "$ref": "#/components/parameters/UnitAmountOptional"
+          },
+          {
+            "$ref": "#/components/parameters/UnitReferenceTimeStamp"
+          },
+          {
+            "$ref": "#/components/parameters/SortedSize"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SUCCESS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TopLinksAndQRCodes"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "MONTHLY_LIMIT_EXCEEDED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MonthlyLimitExceeded"
                 }
               }
             }
@@ -3712,6 +4032,161 @@
         }
       }
     },
+    "/groups/{group_guid}/engagements/top": {
+      "get": {
+        "operationId": "getGroupTopMetrics",
+        "tags": [
+          "Groups"
+        ],
+        "description": "Get top performing links by engagement for all links in a group.",
+        "summary": "Get Group Top Performing Links by Engagement",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/GroupGUID"
+          },
+          {
+            "$ref": "#/components/parameters/TimeUnit"
+          },
+          {
+            "$ref": "#/components/parameters/UnitAmount"
+          },
+          {
+            "$ref": "#/components/parameters/Size"
+          },
+          {
+            "$ref": "#/components/parameters/UnitReferenceTimeStamp"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SUCCESS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SortedLinks"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD_REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "TEMPORARILY_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TemporarilyUnavailable"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/{group_guid}/engagements/over_time": {
+      "get": {
+        "operationId": "getGroupMetricsOverTime",
+        "tags": [
+          "Groups"
+        ],
+        "description": "Get group engagement metrics over time for all links in a group.",
+        "summary": "Get Group Metrics Over Time",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/GroupGUID"
+          },
+          {
+            "$ref": "#/components/parameters/TimeUnit"
+          },
+          {
+            "$ref": "#/components/parameters/UnitAmount"
+          },
+          {
+            "$ref": "#/components/parameters/UnitReferenceTimeStamp"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SUCCESS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupClicks"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD_REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "TEMPORARILY_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TemporarilyUnavailable"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/groups/{group_guid}/clicks": {
       "get": {
         "operationId": "getGroupClicks",
@@ -3808,14 +4283,122 @@
         }
       }
     },
+    "/groups/{group_guid}/exports": {
+      "post": {
+        "operationId": "postCreateGroupExport",
+        "tags": [
+          "Groups"
+        ],
+        "description": "Build a CSV export synchronously and return it inline as a base64 data URI plus metadata.\nThe export_type field selects the CSV shape: link_engagements_batch (engagement metrics for\nexplicit bitlinks or a filter), links_list (link metadata roster), or qr_codes_list (QR code\nmetadata roster). Row caps apply per request: 200 rows when metrics are included\n(link_engagements_batch, or include_metrics on a list export); 1000 rows for metadata-only\nlist exports. When the match set exceeds the cap, truncated is true and only the first\ncap rows are returned; row_count reports how many data rows are in the CSV.\n",
+        "summary": "Create an inline CSV export for a group",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/GroupGUID"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GroupExportRequestBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupExportResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD_REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "UPGRADE_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpgradeRequired"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "UNPROCESSABLE_ENTITY",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableEntity"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "TEMPORARILY_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TemporarilyUnavailable"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/organizations": {
       "get": {
         "summary": "Retrieve Organizations",
-        "description": "Retrieve a list of organizations.",
+        "description": "Retrieve a list of organizations for the authenticated user. By default, only organizations permitted by the token's allowed_orgs are returned. Use include_all=true to return all organizations regardless of token restrictions. Each organization is annotated with its authentication requirements (require_sso, require_2fa) when configured.\n",
         "tags": [
           "Organizations"
         ],
         "operationId": "getOrganizations",
+        "parameters": [
+          {
+            "name": "include_all",
+            "in": "query",
+            "required": false,
+            "description": "When set to true, returns all of the user's organizations regardless of the token's allowed_orgs restrictions.\n",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "SUCCESS",
@@ -5885,7 +6468,11 @@
                     "group_guid": "Ba1bc23dE4F",
                     "destination": {
                       "bitlink_id": "bit.ly/abc123"
-                    }
+                    },
+                    "tags": [
+                      "tag1",
+                      "tag2"
+                    ]
                   }
                 },
                 "Link in Bio": {
@@ -6079,6 +6666,24 @@
                       ]
                     }
                   }
+                },
+                "With Expiration": {
+                  "value": {
+                    "group_guid": "Ba1bc23dE4F",
+                    "destination": {
+                      "bitlink_id": "bit.ly/abc123"
+                    },
+                    "expiration_at": "2025-07-28T14:30:00+0000"
+                  }
+                },
+                "Stand Alone QR Code": {
+                  "value": {
+                    "title": "Stand Alone QR Code",
+                    "group_guid": "Ba1bc23dE4F",
+                    "destination": {
+                      "long_url": "https://example.com/page"
+                    }
+                  }
                 }
               }
             }
@@ -6155,6 +6760,178 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Gone"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/qr-codes/static": {
+      "post": {
+        "summary": "Generate a static QR Code image",
+        "description": "Generate a static QR code image without creating or saving a QR code resource. SVG and PNG output are supported via the Accept header\nContact your Account Manager to discuss enabling this feature for your account.\n\nThe `render_customizations` field supports basic appearance options. Customizations that require the rasterize API are not supported: `gradient`, `background_gradient`, `frame`, `text`, and `logo`.\n\nThe Accept header controls the response format:\n- `application/json` (default): Returns a JSON object with the image as a base64-encoded byte string.\n- `image/svg+xml`: Returns the raw SVG image.\n- `image/png`: Returns the raw PNG image.\n",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PublicCreateStaticQRCodeRequest"
+              },
+              "examples": {
+                "Minimal": {
+                  "value": {
+                    "content": "https://bitly.com",
+                    "group_guid": "Ba1bc23dE4F"
+                  }
+                },
+                "With Customizations": {
+                  "value": {
+                    "content": "https://bitly.com",
+                    "group_guid": "Ba1bc23dE4F",
+                    "render_customizations": {
+                      "background_color": "#ffffff",
+                      "dot_pattern_color": "#EF8000",
+                      "dot_pattern_type": "rounded",
+                      "corners": {
+                        "corner_1": {
+                          "inner_color": "#EF8000",
+                          "outer_color": "#EF8000",
+                          "shape": "leaf"
+                        },
+                        "corner_2": {
+                          "inner_color": "#EF8000",
+                          "outer_color": "#EF8000",
+                          "shape": "leaf"
+                        },
+                        "corner_3": {
+                          "inner_color": "#EF8000",
+                          "outer_color": "#EF8000",
+                          "shape": "leaf"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "createStaticQRCodePublic",
+        "tags": [
+          "QR Codes"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Accept",
+            "description": "Controls the response format. Use `application/json` (default) to receive a JSON-wrapped base64 image, `image/svg+xml` to receive the raw SVG, or `image/png` to receive the raw PNG.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/json",
+                "image/svg+xml",
+                "image/png"
+              ]
+            },
+            "required": false,
+            "example": "image/svg+xml"
+          },
+          {
+            "in": "query",
+            "name": "format",
+            "description": "The image format. Supports `svg` and `png`. Ignored if the Accept header specifies an image type.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "svg",
+                "png"
+              ],
+              "default": "svg"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SUCCESS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicStaticQRCodeResponse"
+                }
+              },
+              "image/svg+xml": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "<svg>QR code svg</svg>"
+              },
+              "image/png": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                },
+                "example": "...png bytes..."
+              }
+            }
+          },
+          "400": {
+            "description": "BAD_REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "NOT_ACCEPTABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "UNPROCESSABLE_ENTITY",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableEntity"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "MONTHLY_LIMIT_EXCEEDED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MonthlyLimitExceeded"
                 }
               }
             }
@@ -6307,7 +7084,7 @@
           }
         ],
         "requestBody": {
-          "required": true,
+          "required": false,
           "content": {
             "application/json": {
               "schema": {
@@ -6316,7 +7093,11 @@
               "examples": {
                 "Minimal": {
                   "value": {
-                    "title": "Minimal QR Code Updated"
+                    "title": "Minimal QR Code Updated",
+                    "tags": [
+                      "tag1",
+                      "tag2"
+                    ]
                   }
                 },
                 "Complex": {
@@ -6467,6 +7248,11 @@
                         "error_correction": 1
                       }
                     }
+                  }
+                },
+                "With Expiration": {
+                  "value": {
+                    "expiration_at": "2025-07-28T14:30:00+0000"
                   }
                 }
               }
@@ -6741,6 +7527,18 @@
           },
           {
             "$ref": "#/components/parameters/FilterIsGS1"
+          },
+          {
+            "$ref": "#/components/parameters/FilterIsExpired"
+          },
+          {
+            "$ref": "#/components/parameters/FilterHasExpiration"
+          },
+          {
+            "$ref": "#/components/parameters/FilterHasDynamicRouting"
+          },
+          {
+            "$ref": "#/components/parameters/Tags"
           }
         ],
         "responses": {
@@ -6780,6 +7578,121 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/InternalError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Bulk update QR codes",
+        "description": "Bulk update can add or remove tags, or archive/un-archive, up to 100 QR codes at a time.\nPages QR codes cannot be updated with this endpoint.\nThe response includes a list of QR code ids that were updated.\n",
+        "tags": [
+          "QR Codes"
+        ],
+        "operationId": "updateQRCodesByGroup",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/GroupGUID"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QRCBulkUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "SUCCESS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QRCBulkUpdate"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD_REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "GONE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Gone"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "UNPROCESSABLE_ENTITY",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableEntity"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "MONTHLY_LIMIT_EXCEEDED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MonthlyLimitExceeded"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "TEMPORARILY_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TemporarilyUnavailable"
                 }
               }
             }
@@ -7429,6 +8342,247 @@
         }
       }
     },
+    "/qr-codes/{qrcode_id}/to-bitlink": {
+      "put": {
+        "summary": "Upgrade a QR Code to a bitlink",
+        "description": "Upgrades a stand alone (decoupled) QR Code to a coupled QR Code by associating it with its underlying Bitly short link. This operation consumes one encode from the organization's monthly Link limit. If the QR Code is already coupled, no encode is consumed.",
+        "operationId": "upgradeQRCodeToBitlink",
+        "tags": [
+          "QR Codes"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "qrcode_id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SUCCESS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BitlinkBody"
+                },
+                "examples": {
+                  "Upgraded QR Code": {
+                    "value": {
+                      "link": "https://bit.ly/abc123",
+                      "id": "bit.ly/abc123",
+                      "long_url": "https://example.com/page",
+                      "title": "My Stand Alone QR Code",
+                      "archived": false,
+                      "created_at": "2024-01-15T10:00:00+0000",
+                      "created_by": "jane",
+                      "custom_bitlinks": [],
+                      "tags": [],
+                      "qr_code_ids": [
+                        "Ab1Cd2Ef3G4"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD_REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "MONTHLY_LIMIT_EXCEEDED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MonthlyLimitExceeded"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/qr-codes/{qrcode_id}/redirect": {
+      "patch": {
+        "summary": "Redirect a QR Code",
+        "description": "Changes the destination URL that a stand alone QR Code redirects to. This only works for stand alone QR Codes; a QR Code already associated with a bitlink must be updated via the Bitlinks API.",
+        "operationId": "redirectQRCodeDestination",
+        "tags": [
+          "QR Codes"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "qrcode_id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RedirectQRCodeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "SUCCESS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QRCodeMinimal"
+                },
+                "examples": {
+                  "Redirected QR Code": {
+                    "value": {
+                      "qrcode_id": "Ab1Cd2Ef3G4",
+                      "group_guid": "Ba1bc23dE4F",
+                      "title": "My Stand Alone QR Code",
+                      "is_customized": false,
+                      "qr_code_type": "long_url",
+                      "long_urls": [
+                        "https://example.com/new-page"
+                      ],
+                      "is_gs1": false,
+                      "tags": [],
+                      "archived": false,
+                      "created": "2024-01-15T10:00:00+0000",
+                      "updated": "2024-01-16T09:30:00+0000"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD_REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "UPGRADE_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpgradeRequired"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "GONE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Gone"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "UNPROCESSABLE_ENTITY",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableEntity"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "MONTHLY_LIMIT_EXCEEDED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MonthlyLimitExceeded"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/groups/{group_guid}/feature_usage": {
       "get": {
         "summary": "Get limit usage for a group",
@@ -7571,6 +8725,843 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/InternalError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/{group_guid}/links/clicks/over_time": {
+      "get": {
+        "operationId": "getGroupLinkClicksOverTime",
+        "tags": [
+          "Groups"
+        ],
+        "description": "Get link clicks over time for all links in a group.",
+        "summary": "Get Group Link Clicks Over Time",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/GroupGUID"
+          },
+          {
+            "$ref": "#/components/parameters/TimeUnit"
+          },
+          {
+            "$ref": "#/components/parameters/UnitAmount"
+          },
+          {
+            "$ref": "#/components/parameters/UnitReferenceTimeStamp"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SUCCESS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupClicks"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD_REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "TEMPORARILY_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TemporarilyUnavailable"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/{group_guid}/links/clicks/devices": {
+      "get": {
+        "operationId": "getGroupLinkClicksByDevice",
+        "tags": [
+          "Groups"
+        ],
+        "description": "Get link clicks by device for all links in a group.",
+        "summary": "Get Group Link Clicks by Device",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/GroupGUID"
+          },
+          {
+            "$ref": "#/components/parameters/TimeUnit"
+          },
+          {
+            "$ref": "#/components/parameters/UnitAmount"
+          },
+          {
+            "$ref": "#/components/parameters/Size"
+          },
+          {
+            "$ref": "#/components/parameters/UnitReferenceTimeStamp"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SUCCESS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "unit": {
+                      "type": "string",
+                      "x-faker": "internet.userName"
+                    },
+                    "units": {
+                      "type": "integer",
+                      "x-faker": {
+                        "datatype.number": {
+                          "min": 1,
+                          "max": 100
+                        }
+                      }
+                    },
+                    "facet": {
+                      "type": "string",
+                      "enum": [
+                        "countries",
+                        "cities",
+                        "devices",
+                        "referrers",
+                        "referrers_by_domain",
+                        "referring_domains",
+                        "referring_networks",
+                        "shorten_counts"
+                      ]
+                    },
+                    "unit_reference": {
+                      "type": "string",
+                      "x-faker": "date.past"
+                    },
+                    "metrics": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "clicks": {
+                            "type": "integer"
+                          },
+                          "value": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD_REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "TEMPORARILY_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TemporarilyUnavailable"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/{group_guid}/links/clicks/referrers": {
+      "get": {
+        "operationId": "getGroupLinkClicksByReferrer",
+        "tags": [
+          "Groups"
+        ],
+        "description": "Get link clicks by referrer for all links in a group.",
+        "summary": "Get Group Link Clicks by Referrer",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/GroupGUID"
+          },
+          {
+            "$ref": "#/components/parameters/TimeUnit"
+          },
+          {
+            "$ref": "#/components/parameters/UnitAmount"
+          },
+          {
+            "$ref": "#/components/parameters/Size"
+          },
+          {
+            "$ref": "#/components/parameters/UnitReferenceTimeStamp"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SUCCESS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClickMetrics"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD_REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "TEMPORARILY_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TemporarilyUnavailable"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/{group_guid}/links/clicks/countries": {
+      "get": {
+        "operationId": "getGroupLinkClicksByCountry",
+        "tags": [
+          "Groups"
+        ],
+        "description": "Get link clicks by country for all links in a group.",
+        "summary": "Get Group Link Clicks by Country",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/GroupGUID"
+          },
+          {
+            "$ref": "#/components/parameters/TimeUnit"
+          },
+          {
+            "$ref": "#/components/parameters/UnitAmount"
+          },
+          {
+            "$ref": "#/components/parameters/Size"
+          },
+          {
+            "$ref": "#/components/parameters/UnitReferenceTimeStamp"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SUCCESS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClickMetrics"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD_REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "TEMPORARILY_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TemporarilyUnavailable"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/{group_guid}/links/clicks/cities": {
+      "get": {
+        "operationId": "getGroupLinkClicksByCity",
+        "tags": [
+          "Groups"
+        ],
+        "description": "Get link clicks by city for all links in a group.",
+        "summary": "Get Group Link Clicks by City",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/GroupGUID"
+          },
+          {
+            "$ref": "#/components/parameters/TimeUnit"
+          },
+          {
+            "$ref": "#/components/parameters/UnitAmount"
+          },
+          {
+            "$ref": "#/components/parameters/Size"
+          },
+          {
+            "$ref": "#/components/parameters/UnitReferenceTimeStamp"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SUCCESS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CityMetrics"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD_REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "TEMPORARILY_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TemporarilyUnavailable"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/{group_guid}/links/clicks/top": {
+      "get": {
+        "operationId": "getGroupTopLinkClicks",
+        "tags": [
+          "Groups"
+        ],
+        "description": "Get top performing links by click for all links in a group.",
+        "summary": "Get Group Top Performing Links by Click",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/GroupGUID"
+          },
+          {
+            "$ref": "#/components/parameters/TimeUnit"
+          },
+          {
+            "$ref": "#/components/parameters/UnitAmount"
+          },
+          {
+            "$ref": "#/components/parameters/Size"
+          },
+          {
+            "$ref": "#/components/parameters/UnitReferenceTimeStamp"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SUCCESS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SortedLinks"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD_REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "TEMPORARILY_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TemporarilyUnavailable"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/{group_guid}/codes/scans/over_time": {
+      "get": {
+        "operationId": "getGroupCodeScansOverTime",
+        "tags": [
+          "Groups"
+        ],
+        "description": "Get QR code scan metrics over time for a group.",
+        "summary": "Get Scan Metrics for a Group Over Time",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/GroupGUID"
+          },
+          {
+            "$ref": "#/components/parameters/TimeUnit"
+          },
+          {
+            "$ref": "#/components/parameters/UnitAmount"
+          },
+          {
+            "$ref": "#/components/parameters/UnitReferenceTimeStamp"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SUCCESS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupClicks"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD_REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "TEMPORARILY_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TemporarilyUnavailable"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/{group_guid}/codes/scans/countries": {
+      "get": {
+        "operationId": "getGroupCodeScansByCountry",
+        "tags": [
+          "Groups"
+        ],
+        "description": "Get QR code scan metrics for a group broken down by country.",
+        "summary": "Get Scan Metrics for a Group by Country",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/GroupGUID"
+          },
+          {
+            "$ref": "#/components/parameters/TimeUnit"
+          },
+          {
+            "$ref": "#/components/parameters/UnitAmount"
+          },
+          {
+            "$ref": "#/components/parameters/UnitReferenceTimeStamp"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SUCCESS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClickMetrics"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD_REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "TEMPORARILY_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TemporarilyUnavailable"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/{group_guid}/codes/scans/cities": {
+      "get": {
+        "operationId": "getGroupCodeScansByCity",
+        "tags": [
+          "Groups"
+        ],
+        "description": "Get QR code scan metrics for a group broken down by city.",
+        "summary": "Get Scan Metrics for a Group by City",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/GroupGUID"
+          },
+          {
+            "$ref": "#/components/parameters/TimeUnit"
+          },
+          {
+            "$ref": "#/components/parameters/UnitAmount"
+          },
+          {
+            "$ref": "#/components/parameters/UnitReferenceTimeStamp"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SUCCESS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CityMetrics"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD_REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "TEMPORARILY_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TemporarilyUnavailable"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/{group_guid}/codes/scans/top": {
+      "get": {
+        "operationId": "getGroupTopCodeScans",
+        "tags": [
+          "Groups"
+        ],
+        "description": "Get top performing QR codes by scan count for all codes in a group.",
+        "summary": "Get Top Performing QR Codes for a Group",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/GroupGUID"
+          },
+          {
+            "$ref": "#/components/parameters/TimeUnit"
+          },
+          {
+            "$ref": "#/components/parameters/UnitAmount"
+          },
+          {
+            "$ref": "#/components/parameters/UnitReferenceTimeStamp"
+          },
+          {
+            "name": "decoupled",
+            "in": "query",
+            "required": false,
+            "description": "When true, ranks results by decoupled QR scan count and returns a TopLinksAndQRCodes response with links and QR codes partitioned into separate lists and a unified sorted_engagements ordering.\n",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SUCCESS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/SortedLinks"
+                    },
+                    {
+                      "$ref": "#/components/schemas/TopLinksAndQRCodes"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD_REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "TEMPORARILY_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TemporarilyUnavailable"
                 }
               }
             }
@@ -7783,6 +9774,20 @@
           "api"
         ]
       },
+      "TagType": {
+        "name": "type",
+        "description": "Tag set to return; defaults to bitlink",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "default": "bitlink",
+          "enum": [
+            "bitlink",
+            "qr_code"
+          ]
+        }
+      },
       "LaunchpadIDs": {
         "name": "launchpad_ids",
         "description": "Filter by launchpad id",
@@ -7889,6 +9894,48 @@
           ]
         },
         "example": "both"
+      },
+      "FilterIsExpired": {
+        "name": "is_expired",
+        "description": "filter bitlinks by expiration status",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "default": "both",
+          "enum": [
+            "on",
+            "off",
+            "both"
+          ]
+        }
+      },
+      "FilterHasExpiration": {
+        "name": "has_expiration",
+        "description": "filter bitlinks by presence of expiration",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "default": "both",
+          "enum": [
+            "on",
+            "off",
+            "both"
+          ]
+        }
+      },
+      "FilterHasDynamicRouting": {
+        "name": "has_dynamic_routing",
+        "description": "filter bitlinks by presence of dynamic routing rules",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "default": "both",
+          "enum": [
+            "on",
+            "off",
+            "both"
+          ]
+        }
       },
       "CreatingLogin": {
         "name": "creating_login",
@@ -8331,6 +10378,22 @@
                 "items": {
                   "type": "string"
                 }
+              },
+              "require_sso": {
+                "type": "string",
+                "description": "SSO authentication requirement for this organization. Possible values: \"none\", \"any\". Omitted when no auth requirements are configured.\n",
+                "enum": [
+                  "none",
+                  "any"
+                ]
+              },
+              "require_2fa": {
+                "type": "string",
+                "description": "Two-factor authentication requirement for this organization. Possible values: \"none\", \"sms\". Omitted when no auth requirements are configured.\n",
+                "enum": [
+                  "none",
+                  "sms"
+                ]
               }
             }
           }
@@ -8594,6 +10657,83 @@
             "items": {
               "type": "string"
             }
+          },
+          "expiration_at": {
+            "type": "string",
+            "description": "Optional expiration timestamp for the bitlink (e.g., 2025-01-28T14:30:00+0000)"
+          },
+          "dynamic_routing": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DynamicRoutingRule"
+            },
+            "description": "Dynamic routing rules for this bitlink. Only present when at least one rule is configured."
+          }
+        }
+      },
+      "DynamicRoutingRule": {
+        "type": "object",
+        "description": "A dynamic routing rule that redirects traffic to a different destination based on user attributes.",
+        "properties": {
+          "long_url": {
+            "type": "string",
+            "description": "The destination URL for requests matching this rule."
+          },
+          "country_match": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "ISO 3166-1 alpha-2 country codes that trigger this rule (e.g., [\"US\", \"CA\"])."
+          },
+          "country_exclude": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "ISO 3166-1 alpha-2 country codes that must NOT match for this rule to apply."
+          },
+          "region_match": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "ISO 3166-2 region codes that trigger this rule (e.g., [\"US-CA\", \"CA-ON\"])."
+          },
+          "region_exclude": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "ISO 3166-2 region codes that must NOT match for this rule to apply (e.g., [\"US-CA\", \"CA-ON\"])."
+          },
+          "device_match": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DynamicRoutingDeviceEnum"
+            },
+            "description": "Device types that trigger this rule (e.g., [\"mobile\", \"tablet\"])."
+          },
+          "device_exclude": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DynamicRoutingDeviceEnum"
+            },
+            "description": "Device types that must NOT match for this rule to apply."
+          },
+          "os_match": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DynamicRoutingPlatformEnum"
+            },
+            "description": "Operating systems that trigger this rule (e.g., [\"ios\", \"android\"])."
+          },
+          "os_exclude": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DynamicRoutingPlatformEnum"
+            },
+            "description": "Operating systems that must NOT match for this rule to apply."
           }
         }
       },
@@ -8620,6 +10760,17 @@
           },
           "long_url": {
             "type": "string"
+          },
+          "expiration_at": {
+            "type": "string",
+            "description": "Optional expiration timestamp for the bitlink (e.g., 2025-01-28T14:30:00+0000). Minimum expiration time is 5 minutes from now and maximum is 1 year."
+          },
+          "dynamic_routing": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DynamicRoutingRule"
+            },
+            "description": "Dynamic routing rules for this bitlink. Providing this field replaces all existing rules. Send an empty array to clear all rules."
           }
         },
         "example": {
@@ -8680,6 +10831,13 @@
           "long_url": {
             "type": "string"
           },
+          "long_urls": {
+            "type": "array",
+            "description": "The list of destination URLs for this bitlink, including the default long URL and any dynamically routed destination URLs.\n",
+            "items": {
+              "type": "string"
+            }
+          },
           "created_at": {
             "type": "string"
           }
@@ -8689,6 +10847,18 @@
         "type": "object",
         "properties": {
           "clicks": {
+            "type": "integer"
+          },
+          "id": {
+            "type": "string"
+          }
+        }
+      },
+      "EngagementSubtotal": {
+        "description": "Engagement-count subtotal for a single bitlink or decoupled QR code. The `id` references either a bitlink (`<domain>/<hash>`) or a QR code guid, and `engagements` is the combined count of bitlink clicks or QR code scans for that entity.\n",
+        "type": "object",
+        "properties": {
+          "engagements": {
             "type": "integer"
           },
           "id": {
@@ -8709,6 +10879,30 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ClickLink"
+            }
+          }
+        }
+      },
+      "TopLinksAndQRCodes": {
+        "description": "Response shape for top bitlinks and decoupled QR codes in a group, ranked together by engagement count. `links` and `qr_codes` are independent lists (a link and a decoupled QR code are never the same entity); `sorted_engagements` is the unified descending-by-engagement ordering across both, with each entry's id referencing either a bitlink or a QR code guid. Coupled QRCs are listed by their bitlink ID.\n",
+        "type": "object",
+        "properties": {
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BitlinkBody"
+            }
+          },
+          "qr_codes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QRCodeMinimal"
+            }
+          },
+          "sorted_engagements": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EngagementSubtotal"
             }
           }
         }
@@ -8791,7 +10985,6 @@
       },
       "FullShorten": {
         "type": "object",
-        "required": [],
         "description": "Either long_url (for new bitlinks) or bitlink_id (for adding keywords to existing bitlinks) must be provided, but not both.",
         "properties": {
           "long_url": {
@@ -8831,6 +11024,17 @@
           "bitlink_id": {
             "type": "string",
             "description": "Existing bitlink ID to add a keyword override to. Format: domain/hash. Cannot be used with long_url"
+          },
+          "expiration_at": {
+            "type": "string",
+            "description": "Optional expiration timestamp for the bitlink (e.g., 2025-01-28T14:30:00+0000). Minimum expiration time is 5 minutes from now and maximum is 1 year."
+          },
+          "dynamic_routing": {
+            "type": "array",
+            "description": "dynamic routing rules for this bitlink.",
+            "items": {
+              "$ref": "#/components/schemas/DynamicRoutingRule"
+            }
           }
         },
         "example": {
@@ -8900,6 +11104,88 @@
             "items": {
               "$ref": "#/components/schemas/LinkClicks"
             }
+          },
+          "units": {
+            "type": "integer"
+          },
+          "unit": {
+            "type": "string",
+            "enum": [
+              "minute",
+              "hour",
+              "day",
+              "week",
+              "month"
+            ]
+          },
+          "unit_reference": {
+            "type": "string"
+          }
+        }
+      },
+      "TotalEngagements": {
+        "type": "object",
+        "properties": {
+          "engagements": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Engagements"
+            }
+          },
+          "units": {
+            "type": "integer"
+          },
+          "unit": {
+            "type": "string",
+            "enum": [
+              "minute",
+              "hour",
+              "day",
+              "week",
+              "month"
+            ]
+          },
+          "unit_reference": {
+            "type": "string"
+          }
+        }
+      },
+      "Engagements": {
+        "type": "object",
+        "properties": {
+          "engagement_count": {
+            "type": "integer"
+          },
+          "engagements": {
+            "$ref": "#/components/schemas/Engagement"
+          },
+          "date": {
+            "type": "string"
+          }
+        }
+      },
+      "Engagement": {
+        "type": "object",
+        "properties": {
+          "lib_button_clicks": {
+            "type": "integer"
+          },
+          "clicks": {
+            "type": "integer"
+          },
+          "scans": {
+            "type": "integer"
+          }
+        }
+      },
+      "TotalEngagementsSummary": {
+        "type": "object",
+        "properties": {
+          "total_engagements": {
+            "type": "integer"
+          },
+          "engagements": {
+            "$ref": "#/components/schemas/Engagement"
           },
           "units": {
             "type": "integer"
@@ -9210,7 +11496,8 @@
               "referrers_by_domain",
               "referring_domains",
               "referring_networks",
-              "shorten_counts"
+              "shorten_counts",
+              "destinations"
             ]
           },
           "unit_reference": {
@@ -9288,7 +11575,6 @@
                 }
               },
               "other_metrics": {
-                "type": "object",
                 "$ref": "#/components/schemas/OtherMetrics"
               }
             }
@@ -9341,7 +11627,8 @@
               "countries",
               "cities",
               "device_os",
-              "browsers"
+              "browsers",
+              "destinations"
             ]
           },
           "unit_reference": {
@@ -9382,7 +11669,6 @@
                 }
               },
               "other_metrics": {
-                "type": "object",
                 "$ref": "#/components/schemas/OtherScanMetrics"
               }
             }
@@ -9623,6 +11909,10 @@
           },
           "require_oauth_pkce": {
             "type": "boolean"
+          },
+          "internal_app": {
+            "type": "boolean",
+            "description": "True for Bitly's own first-party apps (dashboard, mobile apps), as opposed to third-party integrations."
           }
         }
       },
@@ -10034,6 +12324,140 @@
           }
         }
       },
+      "GroupExportRequestBody": {
+        "type": "object",
+        "required": [
+          "export_type"
+        ],
+        "properties": {
+          "export_type": {
+            "type": "string",
+            "description": "Which export shape to produce.",
+            "enum": [
+              "link_engagements_batch",
+              "links_list",
+              "qr_codes_list"
+            ]
+          },
+          "bitlinks": {
+            "type": "array",
+            "description": "Fully qualified bitlinks (e.g. \"bit.ly/abc\"). Used by export_type link_engagements_batch when\nthe caller already knows the exact links. Mutually exclusive with filter (provide one or the other).\n",
+            "items": {
+              "type": "string"
+            }
+          },
+          "unix_from": {
+            "type": "integer",
+            "description": "Start of the metrics date range (Unix seconds, UTC). Clamped to the caller's tier data window.\nFor link_engagements_batch, required together with unix_to unless the tier max-history default applies.\nFor links_list or qr_codes_list, used when include_metrics is true.\n"
+          },
+          "unix_to": {
+            "type": "integer",
+            "description": "End of the metrics date range (Unix seconds, UTC). See unix_from."
+          },
+          "filter": {
+            "$ref": "#/components/schemas/GroupExportFilter"
+          },
+          "include_metrics": {
+            "type": "boolean",
+            "description": "When true on links_list or qr_codes_list, append clicks, scans, and button_clicks columns and apply\nthe 200-row cap. Requires unix_from and unix_to (or tier-default window behavior where applicable).\n"
+          }
+        }
+      },
+      "GroupExportFilter": {
+        "type": "object",
+        "description": "Search constraints used to resolve links or QR codes for export. Required for links_list and qr_codes_list.",
+        "properties": {
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "domain": {
+            "type": "string"
+          },
+          "archived": {
+            "type": "string",
+            "description": "Filter by archive state.",
+            "enum": [
+              "on",
+              "off",
+              "both"
+            ]
+          },
+          "query": {
+            "type": "string",
+            "description": "Free-text search query."
+          },
+          "created_after": {
+            "type": "integer",
+            "description": "Include items created at or after this Unix timestamp (UTC)."
+          },
+          "created_before": {
+            "type": "integer",
+            "description": "Include items created before this Unix timestamp (UTC)."
+          },
+          "campaign_guid": {
+            "type": "string",
+            "description": "Filter links by campaign GUID. Ignored for qr_codes_list."
+          }
+        }
+      },
+      "GroupExportResponse": {
+        "type": "object",
+        "properties": {
+          "export_type": {
+            "type": "string",
+            "enum": [
+              "link_engagements_batch",
+              "links_list",
+              "qr_codes_list"
+            ]
+          },
+          "filename": {
+            "type": "string",
+            "description": "Suggested download filename for the CSV."
+          },
+          "media_type": {
+            "type": "string",
+            "example": "text/csv"
+          },
+          "row_count": {
+            "type": "integer",
+            "description": "Number of data rows in the CSV (excluding the header row)."
+          },
+          "column_count": {
+            "type": "integer"
+          },
+          "columns": {
+            "type": "array",
+            "description": "CSV column headers in order.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "size_bytes": {
+            "type": "integer",
+            "description": "Size of the raw CSV bytes before base64 encoding."
+          },
+          "data_uri": {
+            "type": "string",
+            "description": "CSV file as a data:text/csv;base64,... URI."
+          },
+          "unix_from": {
+            "type": "integer",
+            "description": "Metrics window start (Unix seconds) when metrics are included in the export."
+          },
+          "unix_to": {
+            "type": "integer",
+            "description": "Metrics window end (Unix seconds) when metrics are included in the export."
+          },
+          "truncated": {
+            "type": "boolean",
+            "description": "True when the match set exceeded the per-request row cap and only the first cap rows were exported."
+          }
+        }
+      },
       "BulkUpdateRequest": {
         "type": "object",
         "required": [
@@ -10094,6 +12518,66 @@
           }
         }
       },
+      "QRCBulkUpdateRequest": {
+        "type": "object",
+        "required": [
+          "action"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "archive",
+              "edit_tags"
+            ],
+            "description": "archive or edit_tags"
+          },
+          "archive": {
+            "type": "boolean"
+          },
+          "add_tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "remove_tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "qr_code_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "this is limited to 100 QR code ids; Pages QR codes are not supported"
+          }
+        },
+        "example": {
+          "action": "edit_tags",
+          "add_tags": [
+            "tag1",
+            "tag2"
+          ],
+          "qr_code_ids": [
+            "Qo9id25UxtOcnns",
+            "Qb1a2c3d4e5f6g7"
+          ]
+        }
+      },
+      "QRCBulkUpdate": {
+        "type": "object",
+        "properties": {
+          "qr_code_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
       "QRCodeDetails": {
         "type": "object",
         "properties": {
@@ -10138,6 +12622,24 @@
           },
           "modified": {
             "type": "string"
+          },
+          "expiration_at": {
+            "type": "string",
+            "description": "Optional expiration timestamp for the QR code's bitlink (e.g., 2025-01-28T14:30:00+0000)"
+          },
+          "tags": {
+            "description": "A list of tags associated with QR code",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "dynamic_routing": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DynamicRoutingRule"
+            },
+            "description": "Dynamic routing rules for this QR code. Only present when at least one rule is configured."
           }
         }
       },
@@ -10197,8 +12699,26 @@
             "description": "User that created the code.",
             "type": "string"
           },
+          "tags": {
+            "description": "A list of tags associated with QR code",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
           "archived": {
             "type": "boolean"
+          },
+          "expiration_at": {
+            "type": "string",
+            "description": "Optional expiration timestamp for the QR code's bitlink (e.g., 2025-01-28T14:30:00+0000)"
+          },
+          "dynamic_routing": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DynamicRoutingRule"
+            },
+            "description": "Dynamic routing rules for this QR code. Only present when at least one rule is configured."
           },
           "created": {
             "type": "string"
@@ -10305,6 +12825,24 @@
           },
           "gs1": {
             "$ref": "#/components/schemas/GS1Metadata"
+          },
+          "expiration_at": {
+            "type": "string",
+            "description": "Optional expiration timestamp for the QR code's bitlink (e.g., 2025-01-28T14:30:00+0000). Minimum expiration time is 5 minutes from now and maximum is 1 year."
+          },
+          "tags": {
+            "description": "A list of tags to add to the QR code",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "dynamic_routing": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DynamicRoutingRule"
+            },
+            "description": "Optional dynamic routing rules for this decoupled QR code. Only supported for long_url destinations. Providing this field replaces all existing rules. Send an empty array to clear all rules."
           }
         },
         "example": {
@@ -10314,6 +12852,10 @@
             "bitlink_id": "bit.ly/abc123"
           },
           "archived": false,
+          "tags": [
+            "tag1",
+            "tag2"
+          ],
           "render_customizations": {
             "background_color": "#ffffff",
             "dot_pattern_color": "#EF8000",
@@ -10390,6 +12932,77 @@
           }
         }
       },
+      "PublicCreateStaticQRCodeRequest": {
+        "description": "Request body for generating a static QR code image. Customizations such as gradient, background_gradient, frame, text and logo are not supported.",
+        "type": "object",
+        "required": [
+          "content",
+          "group_guid"
+        ],
+        "properties": {
+          "content": {
+            "type": "string",
+            "description": "The raw content to encode in the QR code (e.g. a URL).",
+            "example": "https://bitly.com"
+          },
+          "group_guid": {
+            "type": "string",
+            "description": "The group (brand) GUID used for access control and analytics.",
+            "example": "Ba1bc23dE4F"
+          },
+          "render_customizations": {
+            "$ref": "#/components/schemas/QRCodeCustomizationsStaticPublic"
+          }
+        },
+        "example": {
+          "content": "https://bitly.com",
+          "group_guid": "Ba1bc23dE4F",
+          "render_customizations": {
+            "background_color": "#ffffff",
+            "dot_pattern_color": "#EF8000",
+            "dot_pattern_type": "rounded"
+          }
+        }
+      },
+      "QRCodeCustomizationsStaticPublic": {
+        "description": "Appearance options for a static QR code. gradient, background_gradient, frame, text, and logo are not supported.",
+        "type": "object",
+        "properties": {
+          "background_color": {
+            "description": "The QR code's background color in hex code format with values for alpha channel",
+            "type": "string",
+            "example": "#ff07d280"
+          },
+          "dot_pattern_color": {
+            "description": "The QR code's dot pattern color in hex code format",
+            "type": "string",
+            "example": "#ff07d2"
+          },
+          "dot_pattern_type": {
+            "$ref": "#/components/schemas/QRCodeDotPatternType"
+          },
+          "corners": {
+            "$ref": "#/components/schemas/QRCodeCorners"
+          },
+          "branding": {
+            "$ref": "#/components/schemas/QRCodeBranding"
+          },
+          "spec_settings": {
+            "$ref": "#/components/schemas/QRCodeSpecSettingsPublic"
+          }
+        }
+      },
+      "PublicStaticQRCodeResponse": {
+        "description": "Response containing a generated static QR code image.",
+        "type": "object",
+        "properties": {
+          "image": {
+            "type": "string",
+            "format": "byte",
+            "description": "The image data, base64-encoded. Format is SVG or PNG depending on the requested format."
+          }
+        }
+      },
       "PublicUpdateQRCodeRequest": {
         "description": "Customization and content values for a QR code created through the public API",
         "type": "object",
@@ -10403,11 +13016,33 @@
           "archived": {
             "description": "A boolean representing if the QR code has been archived",
             "type": "boolean"
+          },
+          "expiration_at": {
+            "type": "string",
+            "description": "Optional expiration timestamp for the QR code's bitlink (e.g., 2025-01-28T14:30:00+0000). Minimum expiration time is 5 minutes from now and maximum is 1 year."
+          },
+          "tags": {
+            "description": "A list of tags to add to the QR code",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "dynamic_routing": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DynamicRoutingRule"
+            },
+            "description": "Dynamic routing rules for this QR code. Providing this field replaces all existing rules. Send an empty array to clear all rules."
           }
         },
         "example": {
           "title": "Updated Title",
           "archived": true,
+          "tags": [
+            "tag1",
+            "tag2"
+          ],
           "render_customizations": {
             "background_color": "#ffffff",
             "dot_pattern_color": "#EF8000",
@@ -10524,6 +13159,19 @@
             "items": {
               "$ref": "#/components/schemas/DeletedLink"
             }
+          }
+        }
+      },
+      "RedirectQRCodeRequest": {
+        "description": "Request to redirect a QRCode",
+        "type": "object",
+        "required": [
+          "long_url"
+        ],
+        "properties": {
+          "long_url": {
+            "type": "string",
+            "example": "https://www.google.com"
           }
         }
       },
@@ -10682,15 +13330,12 @@
         "type": "object",
         "properties": {
           "center": {
-            "type": "object",
             "$ref": "#/components/schemas/Text"
           },
           "top": {
-            "type": "object",
             "$ref": "#/components/schemas/Text"
           },
           "bottom": {
-            "type": "object",
             "$ref": "#/components/schemas/Text"
           }
         },
@@ -10742,6 +13387,23 @@
           "email",
           "phone",
           "text"
+        ]
+      },
+      "DynamicRoutingPlatformEnum": {
+        "description": "Platform (OS) values for use in dynamic routing rules (os_match / os_exclude)",
+        "type": "string",
+        "enum": [
+          "ios",
+          "android"
+        ]
+      },
+      "DynamicRoutingDeviceEnum": {
+        "description": "Device type values for use in dynamic routing rules (device_match / device_exclude)",
+        "type": "string",
+        "enum": [
+          "mobile",
+          "tablet",
+          "desktop"
         ]
       },
       "QRCodeFrameType": {
