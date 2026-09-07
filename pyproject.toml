@@ -29,18 +29,18 @@ dynamic = [
 dependencies = [
   "singer-sdk~=0.55.0a2",
 ]
-[[project.authors]]
-name = "Edgar Ramirez-Mondragon"
-email = "edgarrm358@gmail.com"
 [[project.maintainers]]
 name = "Edgar Ramirez-Mondragon"
 email = "edgarrm358@gmail.com"
-[project.scripts]
-tap-bitly = "tap_bitly.tap:TapBitly.cli"
+[[project.authors]]
+name = "Edgar Ramirez-Mondragon"
+email = "edgarrm358@gmail.com"
 [project.urls]
 Documentation = "https://github.com/reservoir-data/tap-bitly#readme"
 Homepage = "https://github.com/reservoir-data/tap-bitly"
 Source = "https://github.com/reservoir-data/tap-bitly"
+[project.scripts]
+tap-bitly = "tap_bitly.tap:TapBitly.cli"
 
 [dependency-groups]
 dev = [
@@ -74,13 +74,13 @@ select = [
   "ALL",
 ]
 ignore = [
-  "missing-trailing-comma",
   "line-contains-todo",
+  "missing-trailing-comma",
   "single-line-implicit-string-concatenation",
 ]
 per-file-ignores."tests/*" = [
-  "missing-return-type-undocumented-public-function",
   "assert",
+  "missing-return-type-undocumented-public-function",
   "private-member-access",
 ]
 unfixable = [
