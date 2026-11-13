@@ -15,7 +15,7 @@ import sys
 import urllib.request
 
 OPENAPI_URL = "https://dev.bitly.com/v4/v4.json"
-PATH = "tap_bitly/openapi/openapi.json"
+PATH = "src/tap_bitly/openapi/openapi.json"
 
 logging.basicConfig(format="%(levelname)s - %(message)s", level=logging.INFO)
 logger = logging.getLogger()
