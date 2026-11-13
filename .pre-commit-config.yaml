@@ -19,12 +19,12 @@ repos:
       - id: trailing-whitespace
 
   - repo: https://github.com/tox-dev/pyproject-fmt
-    rev: v2.30.3
+    rev: v2.30.6
     hooks:
       - id: pyproject-fmt
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.17.3
+    rev: v0.17.5
     hooks:
       - id: ruff-check
       - id: ruff-format
@@ -40,7 +40,7 @@ repos:
       - pyjson5==2.0.1
 
   - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.13.6
+    rev: 0.13.8
     hooks:
     - id: uv-audit
     - id: uv-lock
@@ -52,6 +52,6 @@ repos:
     - id: mdformat
 
   - repo: https://github.com/crate-ci/typos
-    rev: v1.52.0
+    rev: v1.52.2
     hooks:
     - id: typos
